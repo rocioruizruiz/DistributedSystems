@@ -18,7 +18,10 @@
 
 <img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/JavaBuildPath.png" alt="App Screenshot" style="zoom: 70%" />
 
-* ServerConnection run configurations: right click on ServerConnection class > Run As > Run Configurations. Shpuld look like this:
+* ServerConnection run configurations: right click on ServerConnection class > Run As > Run Configurations -> With ServerConnection selected on Java Application and on Arguments tab -> write on VM arguments text box:
+```-Dmongodb.uri="mongodb+srv://user1:user1password@cluster0.t4m8y.mongodb.net/ADMIN_DB?retryWrites=true&w=majority"```
+Should look like this:
+
 
 
 <img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/ServerConnectionRunConfiguration.png" alt="App Screenshot" style="zoom: 70%" />
