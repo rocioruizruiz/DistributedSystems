@@ -17,3 +17,8 @@
 
 
 <img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/JavaBuildPath.png" alt="App Screenshot" style="zoom: 70%" />
+
+* ServerConnection run configurations: right click on ServerConnection class > Run As > Run Configurations. Shpuld look like this:
+
+
+<img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/ServerConnectionRunConfiguration.png" alt="App Screenshot" style="zoom: 70%" />
