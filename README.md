@@ -27,9 +27,9 @@ Should look like this:
 <img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/ServerRunConfiguration.png" alt="App Screenshot" style="zoom: 70%" />
 
 ## run:
-* RUN PROXY (which is already allocated on port 3338, and clients know that info)
 * RUN SERVER: when asked about ports, insert: 3339
 * RUN SERVER: when asked about ports, insert: 3340
 * RUN SERVER: when asked about ports, insert: 3341
 * RUN SERVER: when asked about ports, insert: 3367
+* RUN PROXY (which is already allocated on port 3338, and clients know that info)
 * RUN CLIENT: functionalities you can try: register, login, start.
