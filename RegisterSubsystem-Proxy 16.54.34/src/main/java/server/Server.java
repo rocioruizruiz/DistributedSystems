@@ -2,9 +2,17 @@ package server;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.conection.*;
+import org.bson.Document;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.and;
+import org.bson.conversions.Bson;
 
 import protocol.*;
 
@@ -12,6 +20,8 @@ public class Server {
 
     ServerSocket s;
     int port;
+    private static List<MongoDatabase> databases = new ArrayList<MongoDatabase>();
+    
     public Server() {
     	try {
     		
@@ -44,11 +54,10 @@ public class Server {
 
     public void init() {
         
-        // Codigo de inicializacion ...
+        // Codigo de inicializacion ...    	
+    	ServerConnection connection = new ServerConnection(databases);
     	
-    	Connection db = new Connection();
-      
-        
+
     }
 
 
@@ -59,7 +68,6 @@ public class Server {
 	    private ObjectInputStream is;
 	    private ObjectOutputStream os;
 	    private Usuario usuario;
-		private FileUsers fileUsers;
 	    
 	    // Constructor 
 	    public ClientHandler(Socket socket) 
@@ -84,7 +92,7 @@ public class Server {
 	    public void init() {
 	        
 	        // Codigo de inicializacion ...
-	         fileUsers = new FileUsers();
+	        // fileUsers = new FileUsers();
 	      
 	        
 	    }
@@ -152,21 +160,26 @@ public class Server {
 	        String login = (String) pc.getArgs().get(0);
 	        String password = (String) pc.getArgs().get(1);
 	        try {
-	            Usuario userData = new Usuario();
-	            int error = this.fileUsers.findUser(login, password, userData);
-	            if( error == Usuario.USER_OK ) {
+	            
+	            Bson filter_login = (eq("login", login));
+	            Bson filter = and((eq("login", login)), (eq("password", password)));
+	            Document exists = databases.get(0).getCollection("Users").find(filter).first();
+	            Document exists_login = databases.get(0).getCollection("Users").find(filter_login).first();
+	            
+	            if( exists != null ) {
+	            	this.usuario = new Usuario(login, password);
 	                RespuestaControl rc = new RespuestaControl("OP_LOGIN_OK");
 	                this.os.writeObject(rc);
-	                System.out.println("Usuario " + userData.getLogin() + ": conectado");
-	                this.usuario = userData;
+	                System.out.println("Usuario " + this.usuario.getLogin() + ": conectado");
+	                
 	            }
-	            else if( error == Usuario.USER_BAD_PASSWORD ) {
+	            else if( exists_login != null ) {
 	                RespuestaControl rc = new RespuestaControl("OP_LOGIN_BAD_PASSWORD");
 	                this.os.writeObject(rc);
 	                System.out.println("Intento de acceso con contraseña incorrecta");
 	                this.usuario = null;
 	            }
-	            else if( error == Usuario.USER_NO_LOGIN ) {
+	            else  {
 	                RespuestaControl rc = new RespuestaControl("OP_LOGIN_NO_USER");
 	                this.os.writeObject(rc);
 	                System.out.println("Intento de acceso con login incorrecto");
@@ -183,18 +196,19 @@ public class Server {
 	        String login = (String) pc.getArgs().get(0);
 	        String password = (String) pc.getArgs().get(1);
 	        try {
-	            Usuario userData = new Usuario();
-	            int error = this.fileUsers.findUser(login);
-	            if( error==Usuario.USER_OK ) {
+	        	Bson filter_login = (eq("login", login));
+	            Document exists_login = databases.get(0).getCollection("Users").find(filter_login).first();
+	            
+	            if( exists_login != null ) {
 	                RespuestaControl rc = new RespuestaControl("OP_REG_NOK");
 	                this.os.writeObject(rc);
-	                System.out.println("Usuario " + userData.getLogin() + " no registrado porque ya existe");
-	                this.usuario = userData;
-	            }else if( error==Usuario.USER_NO_LOGIN ) {
+	                System.out.println("Usuario " + login + " no registrado porque ya existe");
+
+	            }else {
 	                RespuestaControl rc = new RespuestaControl("OP_REG_OK");
 	                this.os.writeObject(rc);
 	                System.out.println("Nuevo usuario, registrando usuario...");
-	                this.fileUsers.writeUser(login, password);
+	                databases.get(0).getCollection("Users").insertOne(new Document("login", login).append("password", password));
 	                System.out.println("Usuario registrado satisfactoriamente");
 	                this.usuario = null;
 	            }
