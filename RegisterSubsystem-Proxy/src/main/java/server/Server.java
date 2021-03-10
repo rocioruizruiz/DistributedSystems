@@ -28,6 +28,7 @@ public class Server {
     		System.out.println("Inserte puerto de servidor: ");
     		Scanner sc = new Scanner(System.in);
             int port = Integer.parseInt(sc.nextLine());
+            sc.close();
     		System.out.println("Arrancando el servidor...");
             this.init();
             System.out.println("Abriendo canal de comunicaciones...");
@@ -55,7 +56,7 @@ public class Server {
     public void init() {
         
         // Codigo de inicializacion ...    	
-    	ServerConnection connection = new ServerConnection(databases);
+    	new ServerConnection(databases);
     	
 
     }
@@ -213,6 +214,7 @@ public class Server {
 	                this.usuario = null;
 	            }
 	        } catch (Exception ex) {
+	        	ex.printStackTrace();
 	        }
 	        
 	    }

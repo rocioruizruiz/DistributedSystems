@@ -44,13 +44,7 @@ public class ServerConnection {
             	serverDatabases.add(mongoClient.getDatabase(doc.getString("nombre")));
             	System.out.println(doc.getString("nombre"));    	
         	}
-//           //en server
-//        	iterable = this.serverDatabases.get(0).getCollection("Users").find();
-//        	cursor = iterable.iterator();
-//            while (cursor.hasNext()) {
-//                System.out.println(cursor.next().toJson());
-//                
-//            }
+
         }catch(Error e){
         	e.printStackTrace();
         }

@@ -48,7 +48,6 @@ public class Client {
                 
                 //Enviamos las credenciales al servidor
                 this.doLogin(credenciales);
-                System.out.println("HEY - AFTER CLIENT LOGIN");
             }
             else if(cmd.compareTo("logout") == 0) {
                 this.doDisconnect();
@@ -64,9 +63,7 @@ public class Client {
                 this.doConnect();
                 //Enviamos los datos del nuevo usuario registrado para comprobar
                 //si existe ya o no
-                System.out.println(this.s.isClosed());
                 this.doResgister(credenciales);
-                System.out.println(this.s.isClosed());
                 this.doDisconnect();
                 
             }
@@ -75,9 +72,9 @@ public class Client {
                 System.out.println( "Empezando..." );
                 //Creamos el socket en el puerto 3339 del hostlocal y conectamos
                 // los objetos de entrada y salida para serializar al socket
-                //if(s.isClosed()){
+                
                 if(this.s == null){
-                    this.doConnect();                    
+                    this.doConnect(); 
                 }
                 //Esperamos la confirmacion del servidor para ver si es posible
                 //conectarse para el juego
@@ -104,7 +101,7 @@ public class Client {
                 this.os = new ObjectOutputStream( s.getOutputStream() );
                 this.is = new ObjectInputStream( s.getInputStream() );
             }else {
-            	System.out.println(this.s);
+
             }
         } catch (UnknownHostException ex) {
         } catch (IOException ex) {
@@ -138,7 +135,6 @@ public class Client {
                 this.os.close();
                 this.os = null;
                 this.s.close();
-                System.out.println("closing");
                 this.s = null;
             } catch (IOException ex) {
             }
@@ -182,7 +178,7 @@ public class Client {
             RespuestaControl rc = (RespuestaControl)this.is.readObject();
             
             if( rc.getSubtipo().compareTo("OP_START_OK")==0 ) {
-                
+                System.out.println("Actividad completada");
             }else if(rc.getSubtipo().compareTo("OP_START_NOK") == 0) {
                 this.console.writeMessage("Registrese o inicie sesion para poder empeza el juego");                
             }
@@ -202,10 +198,8 @@ public class Client {
             p.getArgs().add(credenciales[1]);
             //Enviamos el objeto serializado
             this.os.writeObject(p);
-            System.out.println("HEY - AFTER CLIENT LOGIN WRITE OBJECT");
             // Recibimos la respuesta de control del servidor (objeto serializado)
             RespuestaControl rc = (RespuestaControl)this.is.readObject();
-            System.out.println("HEY - AFTER CLIENT LOGIN READ OBJECT");
             if( rc.getSubtipo().compareTo("OP_LOGIN_OK")==0 ) {
                 this.console.writeMessage("Login correcto");
             }

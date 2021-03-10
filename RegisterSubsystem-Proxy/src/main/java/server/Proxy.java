@@ -1,15 +1,29 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+
+import static com.mongodb.client.model.Filters.eq;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Map.Entry;
+
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.conection.ProxyConnection;
 
 
 public class Proxy {
@@ -17,13 +31,15 @@ public class Proxy {
 	static ArrayList<Pair<Integer, ArrayList<Socket>>> portSockets = new ArrayList<Pair<Integer, ArrayList<Socket>>>();
 	ServerSocket proxy;
 	private static int proxyPort = 3338;
+	private static MongoCollection<Document> servers;
+	private static Hashtable<ObjectId, Integer> servers_hash = new Hashtable<ObjectId, Integer>();
 	
 	public Proxy(){				
         try {
-        	getServers(new File("/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/ComunicacionProcesos/src/server/servers.txt"));
+        	this.init();
+        	
         	this.proxy = new ServerSocket(proxyPort);
-    		System.out.println("Arrancando el servidor proxy...");
-            //this.init();
+    		System.out.println("Arrancando el servidor proxy...");       
             System.out.println("Abriendo canal de comunicaciones Proxy...");
             
             // Proxy Server always running
@@ -45,16 +61,34 @@ public class Proxy {
 	
 	//---------------------------------------//
 	
-	public void getServers(File archivo) throws NumberFormatException, IOException {
-		String cadena;
-        FileReader f = new FileReader(archivo);
-        BufferedReader b = new BufferedReader(f);
-        while((cadena = b.readLine())!=null) {
-            Proxy.portSockets.add(new Pair(Integer.parseInt(cadena), null));
+	
+	
+	public void init() {
+		servers = ProxyConnection.setProxyMongoDBConnection();
+		FindIterable<Document> iterable = servers.find();
+		System.out.println("Hola2");
+        MongoCursor<Document> cursor = iterable.iterator();
+        while (cursor.hasNext()) {
+        	ObjectId id = (ObjectId)cursor.next().get("_id");
+        	if(id != null) {
+        		servers_hash.put(id,0);
+        	}
         }
-        System.out.println(Proxy.portSockets.toString());
-        b.close();
-    }
+	}
+	public static Entry<ObjectId, Integer> getFewerConnectionsServer(Hashtable<ObjectId, Integer> t){
+
+	       //Transfer as List and sort it
+	       ArrayList<Map.Entry<ObjectId, Integer>> l = new ArrayList(t.entrySet());
+	       Collections.sort(l, new Comparator<Map.Entry<ObjectId, Integer>>(){
+
+	         public int compare(Map.Entry<ObjectId, Integer> o1, Map.Entry<ObjectId, Integer> o2) {
+	            return o1.getValue().compareTo(o2.getValue());
+	        }});
+	       
+	       t.put((ObjectId)l.get(0).getKey(), l.get(0).getValue());
+
+	       return l.get(0);
+	    }
 	
 	//---------------------------------------//
 	
@@ -64,8 +98,6 @@ public class Proxy {
 	    private Socket proxySocket;
 	    private ObjectInputStream client_is, proxy_is;
 	    private ObjectOutputStream client_os, proxy_os;
-	    private Usuario usuario;
-		private FileUsers fileUsers;
 	    
 	    // Constructor 
 	    public ClientHandler(Socket socket) 
@@ -85,45 +117,39 @@ public class Proxy {
 	        } 
 	        
 	    }
+
 	    public void procesaCliente(Socket sServicio) {
 	        try {           
 	        	// proxy actua como cliente** ante los servidores
-	        	int serv = new Random().nextInt(4);
-	        	
-	        	System.out.println("HEY - BEFORE CLIENT TUBE PROXY");
 	        	
 	        	this.client_is = new ObjectInputStream( clientSocket.getInputStream() );
 	        	this.client_os = new ObjectOutputStream( clientSocket.getOutputStream() );
 	        	
-	        	System.out.println("HEY - after CLIENT TUBE PROXY");
+	        	//Asignar servidor
 	        	
-	        	this.proxySocket = new Socket("localhost", (Integer)Proxy.portSockets.get(serv).getL()); //creamos comunciacion con servidor aleatoria --cambiar
-                //Asociamos los objetos al socket
+	        	ObjectId _id = getFewerConnectionsServer(servers_hash).getKey();
+	        	Bson filter_server = (eq("_id", _id));
+	        	Document exists = servers.find(filter_server).first();
 	        	
-	        	System.out.println("HEY - BEFORE PROXY TUBE PROXY");
-	        	
-	        	boolean end =  false;
-	        	
+	        	if(exists != null) {	        		
+	        		System.out.println("SERVER FOUND");
+	        		this.proxySocket = new Socket(exists.getString("ip"), exists.getInteger("port")); //creamos comunciacion con servidor aleatoria --cambiar
+	                servers_hash.put(_id, servers_hash.get(_id)+1);
+	        		System.out.println("numero de conexiones del servidor: " + exists.getInteger("port") + "es: " +  servers_hash.get(_id));
+	                
+	                //Asociamos los objetos al socket
+		        	boolean end =  false;
+		        	
 	        		this.proxy_os = new ObjectOutputStream( proxySocket.getOutputStream() );
-		        	System.out.println("HEY - AFTER OBJECT output PROXY-SERVER");
 		        	this.proxy_is = new ObjectInputStream( proxySocket.getInputStream() );
-		        	System.out.println("HEY - AFTER OBJECT INPUT PROXY-SERVER");
-		        	
-		        while(!end) {
-		        	System.out.println("HEY - after PROXY TUBE PROXY");
-		        	
-	        		this.proxy_os.writeObject(this.client_is.readObject());
-		        	//this.proxy_is.readObject();
-		        	System.out.println("HEY - AFTER proxy WRITE OBJECT");
-		        	this.client_os.writeObject(this.proxy_is.readObject());
-		        	System.out.println("HEY - AFTER CLIENT WRITE OBJECT");
-	        	}
-	        	
-	        	
-	        	
-	        	
-	        	
-	        	
+			       
+	        		this.proxy_os.writeObject(this.client_is.readObject()); // el proxy le manda al servidor lo que dice el cliente	        		
+		        	this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le dice el servidor
+
+	        	}else {
+	        		System.out.println("No cuento con servidores disponibles");
+	        	}     	
+		        
 	        }catch(IOException | ClassNotFoundException e){
 	        	
 	        }finally {
