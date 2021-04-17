@@ -66,7 +66,6 @@ public class Proceso7 {
 					}
 				}
 			} catch (IOException ex) {
-				System.out.println(ex);
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}

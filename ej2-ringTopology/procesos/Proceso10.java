@@ -1,5 +1,6 @@
 package procesos;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -65,8 +66,10 @@ public class Proceso10 {
 							socketIzquierda.close();
 					}
 				}
+			} catch (EOFException ex) {
+				
 			} catch (IOException ex) {
-				System.out.println(ex);
+				
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}

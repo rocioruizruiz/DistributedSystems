@@ -99,7 +99,11 @@ public class Server {
 	                os.close();
 	                is.close();
 	                sServicio.close();
-	            } catch (IOException ex) {
+	            } catch (SocketException ex) {
+	            	System.out.println("Broken pipe! Finishing task...");
+	            	System.out.println("Ready to use again!");
+	            }
+	            catch (IOException ex) {
 	            	ex.printStackTrace();
 	            }
 	        }
@@ -115,15 +119,17 @@ public class Server {
 	            if(mensaje != null) {
 	            	
 	            	System.out.println("DESENCRIPTANDO...");
-	            	sleep(25000);
-	            	System.out.println("DESENCRIPTADO!!");
+	            	sleep(25000);	            	
 	            	RespuestaControl rc = new RespuestaControl("OK");
-	                this.os.writeObject(rc);              	
+	                this.os.writeObject(rc);  
+	                System.out.println("DESENCRIPTADO!!");
 	            }else {
 	            	RespuestaControl rc = new RespuestaControl("NOT_OK");
 	                this.os.writeObject(rc);    
 	            }
-	        } catch (Exception ex) {
+	        } catch (SocketException ex) {
+            	
+            } catch (Exception ex) {
 	        	ex.printStackTrace();
 	        }
 	        

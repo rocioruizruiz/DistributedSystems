@@ -1,13 +1,15 @@
 package server;
 
 
-import static com.mongodb.client.model.Filters.eq;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +26,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.conection.ProxyConnection;
+import static com.mongodb.client.model.Filters.eq;
 
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
@@ -52,7 +55,10 @@ public class Proxy {
                 ClientHandler clientSock = new ClientHandler(sServicio);
                 new Thread(clientSock).start();
             }
-        } catch (IOException ex) {
+        } catch(SocketException ex) {
+        	System.out.println("BAD CONECTION");
+        }
+        catch (IOException ex) {
         	ex.printStackTrace();
 		} 
 	}
@@ -73,7 +79,7 @@ public class Proxy {
         while (cursor.hasNext()) {
         	ObjectId id = (ObjectId)cursor.next().get("_id");
         	if(id != null) {
-        		servers_hash.put(id,0);
+        		servers_hash.put(id,2);
         		Bson filter_server = (eq("_id", id));
 	        	Document exists = servers.find(filter_server).first();
         		servers_ranking.put((exists.getInteger("port")+ "-" +exists.getString("ip")),0);
@@ -93,18 +99,6 @@ public class Proxy {
        return l.get(0);
     }
 	
-//	public static ArrayList<Map.Entry<Integer, Integer>> getRanking(Hashtable<Integer, Integer> t){
-//
-//       //Transfer as List and sort it
-//       ArrayList<Map.Entry<Integer, Integer>> l = new ArrayList(t.entrySet());
-//       Collections.sort(l, new Comparator<Map.Entry<Integer, Integer>>(){
-//         public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-//            return o2.getValue().compareTo(o1.getValue());
-//        }});
-//       
-//       System.out.println(l);
-//       return l;
-//    }
 	public static String getRanking(Hashtable<String, Integer> t){
 		String mensaje = "";
 
@@ -130,6 +124,7 @@ public class Proxy {
 	    private Socket proxySocket;
 	    private ObjectInputStream client_is, proxy_is;
 	    private ObjectOutputStream client_os, proxy_os;
+	    private PeticionDatos peticionCliente;
 	    
 	    // Constructor 
 	    public ClientHandler(Socket socket) 
@@ -144,20 +139,22 @@ public class Proxy {
 	             // start 
 	            procesaCliente(clientSocket);
 	            
-	        }catch (Error e) { 
+	        }catch (ClassNotFoundException e) { 
 	            e.printStackTrace(); 
-	        } 
+	        }catch (IOException e){
+	        	e.printStackTrace(); 
+	        }
 	        
 	    }
 
-	    public void procesaCliente(Socket sServicio) {
+	    public void procesaCliente(Socket sServicio) throws UnknownHostException, IOException, ClassNotFoundException {
 	        try {           
 	        	// proxy actua como cliente** ante los servidores
 	        	
 	        	this.client_is = new ObjectInputStream( clientSocket.getInputStream() );
 	        	this.client_os = new ObjectOutputStream( clientSocket.getOutputStream() );
 	        	
-	        	PeticionDatos peticionCliente = (PeticionDatos)this.client_is.readObject();
+	        	peticionCliente = (PeticionDatos)this.client_is.readObject();
 	        	if(peticionCliente.getSubtipo().equals("OP_RANKING")) {
 	        		System.out.println("Generando rankinggg!!");
 	            	RespuestaControl rc = new RespuestaControl("OK");
@@ -169,7 +166,7 @@ public class Proxy {
     	        	Document exists = servers.find(filter_server).first();
         			if(exists != null) {	        		
     	        		System.out.println("SERVER FOUND");
-    	        		this.proxySocket = new Socket(exists.getString("ip"), exists.getInteger("port")); //creamos comunciacion con servidor aleatoria --cambiar
+    	        		this.proxySocket = new Socket(exists.getString("ip"), exists.getInteger("port")); 
     	                servers_hash.put(_id, servers_hash.get(_id)+1);
     	        		System.out.println("numero de conexiones del servidor: " + exists.getInteger("port") + " es: " +  servers_hash.get(_id));
     	                
@@ -191,20 +188,30 @@ public class Proxy {
         		}
 	        	
 	        	//Asignar servidor
+	            
+	        } catch (EOFException ex){
+            	System.out.println("Broken Pipe! Redirecting...");
+            	System.out.println("SERVER FOUND");
+        		this.proxySocket = new Socket("localhost",3341);
+        		System.out.println("Redirecting to ('localhost', 3341)");
+                
+                //Asociamos los objetos al socket
 	        	
+        		this.proxy_os = new ObjectOutputStream( proxySocket.getOutputStream() );
+	        	this.proxy_is = new ObjectInputStream( proxySocket.getInputStream() );
+
+        		this.proxy_os.writeObject(peticionCliente); // el proxy le manda al servidor lo que dice el cliente	 
+	        	this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le dice el servidor
 	        	
-	        	
-	        	
-	        	  	
-		        
-	        }catch(IOException | ClassNotFoundException e){
-	        	
-	        }finally {
+            } catch(IOException | ClassNotFoundException e){
+	        	e.printStackTrace();
+	        } finally {
 	            try {
 	                if(proxy_os != null) proxy_os.close();
 	                if(proxy_is != null)proxy_is.close();
 	                if(sServicio != null)sServicio.close();
 	            } catch (IOException ex) {
+	            	ex.printStackTrace();
 	            }
 	        }
 	    }

@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import protocol.PeticionDatos;
 
@@ -68,8 +69,9 @@ public class Proceso1 {
 					}
 
 				}
+			
 			} catch (IOException ex) {
-				System.out.println(ex);
+				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}

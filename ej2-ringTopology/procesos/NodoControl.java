@@ -94,7 +94,7 @@ public class NodoControl {
 					}
 				}
 			} catch (IOException ex) {
-				System.out.println(ex);
+				
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}

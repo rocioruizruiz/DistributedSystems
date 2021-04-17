@@ -124,21 +124,7 @@ public class Server {
 	                        this.doRegister(pc);                        
 	                    }
 	                    
-	                    if( pc.getSubtipo().compareTo("OP_START")==0 ) {
-	                        this.doStart(pc);  
-	                        
-	                    }
-	                    //CREAR: Comando para solicitar numero de servidor
-	                    if( pc.getSubtipo().compareTo("OP_SERVER_NUMBER_2_START")==0 ) {
-	                        //this.doSelectServerNumber(pc);  
-	                        //REVISAR this.doLogout();
-	                    }
-	                }
-	                else if(p.getTipo().compareTo("PETICION_DATOS") == 0) {
-	                    PeticionDatos pd = (PeticionDatos)p;
-	                    if( pd.getSubtipo().compareTo("FILEPART_REQUEST")==0 ) {
-	                        FilePartRequest fpr = (FilePartRequest)pd; 
-	                    }
+	                     
 	                }
 	                p = (Peticion)this.is.readObject();
 	            }
@@ -149,7 +135,12 @@ public class Server {
 	                os.close();
 	                is.close();
 	                sServicio.close();
-	            } catch (IOException ex) {
+	            } catch (SocketException ex) {
+	            	System.out.println("Broken pipe! Finishing task...");
+	            	System.out.println("Ready to use again!");
+	            }
+	            catch (IOException ex) {
+	            	ex.printStackTrace();
 	            }
 	        }
 	    }
@@ -207,43 +198,24 @@ public class Server {
 
 	            }else {
 	                RespuestaControl rc = new RespuestaControl("OP_REG_OK");
+	                sleep(25000);
 	                this.os.writeObject(rc);
 	                System.out.println("Nuevo usuario, registrando usuario...");
 	                databases.get(0).getCollection("Users").insertOne(new Document("login", login).append("password", password));
 	                System.out.println("Usuario registrado satisfactoriamente");
 	                this.usuario = null;
 	            }
-	        } catch (Exception ex) {
+	        } catch (SocketException ex) {
+	        }catch (Exception ex) {
 	        	ex.printStackTrace();
 	        }
 	        
 	    }
-	    //--------------------------------------------------------------------------
-	    
-	    public void doStart(PeticionControl pc) {
-	        
-	        if(this.usuario != null){
-	            try {
-	                System.out.println("Se inicia  "+ this.usuario.getLogin());
-	                //MODIFICAR PARA EL BALANCEO DE CARGA
-	                RespuestaControl rc = new RespuestaControl("OP_START_OK");
-	                this.os.writeObject(rc);                
-	               
-	            } catch (Exception ex) {
-	            }
-	        }else{
-	            try {
-	                System.out.println("Usuario no registrado");
-	                RespuestaControl rc = new RespuestaControl("OP_START_NOK");
-	                this.os.writeObject(rc);
-	            }catch(Exception ex) {                
-	            }
-	        }        
-	    }
+
 	    //--------------------------------------------------------------------------
 
 	    public void doLogout() {
-	        if( this.usuario!=null ){
+	        if( this.usuario != null ){
 	            System.out.println("Desconectado usuario " + this.usuario.getLogin());
 	            this.usuario = null;
 	        }

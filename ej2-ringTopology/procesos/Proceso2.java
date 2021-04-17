@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import protocol.PeticionDatos;
 
@@ -28,7 +29,7 @@ public class Proceso2 {
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sIzquierda.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
 					String mensaje = pd.getSubtipo();
-
+					
 					// Funcionalidad al activar el nodo de la izquierda (recibir comando)
 					boolean done = false;
 					if (mensaje.toString().compareTo("OP_ROTATION") == 0) {
@@ -65,8 +66,8 @@ public class Proceso2 {
 							socketIzquierda.close();
 					}
 				}
+			
 			} catch (IOException ex) {
-				System.out.println(ex);
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}
