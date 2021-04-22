@@ -1,0 +1,10 @@
+module FilterApp
+{
+	typedef  long arrimage[32][32];
+
+  	interface Filter
+  	{
+  		string applyFilter(in string filter, in string path);
+  		oneway void shutdown();
+  	};
+};
