@@ -1,0 +1,8 @@
+module FilterApp
+{
+  	interface Filter
+  	{
+  		string applyFilter(in string filter, in string path);
+  		oneway void shutdown();
+  	};
+};
