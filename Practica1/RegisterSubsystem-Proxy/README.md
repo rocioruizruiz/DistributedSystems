@@ -16,7 +16,7 @@
 
 
 
-<img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/JavaBuildPath.png" alt="App Screenshot" style="zoom: 70%" />
+<img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/Practica1/img/JavaBuildPath.png" alt="App Screenshot" style="zoom: 70%" />
 
 * Server run configurations: right click on Server class > Run As > Run Configurations -> With Server selected on Java Application and on Arguments tab -> write on VM arguments text box:
 ```-Dmongodb.uri="mongodb+srv://user1:user1password@cluster0.t4m8y.mongodb.net/ADMIN_DB?retryWrites=true&w=majority"```
@@ -24,7 +24,7 @@ Should look like this:
 
 
 
-<img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/img/ServerRunConfiguration.png" alt="App Screenshot" style="zoom: 70%" />
+<img src="https://github.com/rocioruizruiz/DistributedSystems/blob/main/Practica1/img/ServerRunConfiguration.png" alt="App Screenshot" style="zoom: 70%" />
 
 ## run:
 * RUN SERVER: when asked about ports, insert: 3339
