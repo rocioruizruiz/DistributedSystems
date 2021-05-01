@@ -120,20 +120,18 @@ public class Proxy {
 
 	            
 	        } catch (EOFException ex){
-            	ex.printStackTrace();
+            	
 	        	
             } catch (SocketException ex){
-            	System.out.println("BrokenPipe!");
-            	ex.printStackTrace();
-	        	
+            	
             }
 	        catch(IOException | ClassNotFoundException e){
 	        	e.printStackTrace();
 	        } finally {
 	            try {	//CERRAR ESTO CUANDO SE HAYA TERMINADO EL SISTEMA, AUN ESTA A MEDIAS
-//	                if(proxy_os != null) proxy_os.close();
-//	                if(proxy_is != null)proxy_is.close();
-//	                if(sServicio != null)sServicio.close();
+	                if(proxy_os != null) proxy_os.close();
+	                if(proxy_is != null)proxy_is.close();
+	                if(sServicio != null)sServicio.close();
 	            } catch (Exception ex) {
 	            	ex.printStackTrace();
 	            }
@@ -178,9 +176,21 @@ public class Proxy {
 	            	RespuestaControl rc = new RespuestaControl("OP_AUTH_NO_USER");
 	        		client_os.writeObject(rc);
 	            }
-	        } catch (Exception ex) {
-	        	ex.printStackTrace();
-	        }
+	        } catch (EOFException ex) {
+	        	System.out.println("BrokenPipe! Returning NOT_OK to client");
+            	try {
+					this.client_os.writeObject(new RespuestaControl("NOT_OK"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 	        
 	    }
 	}

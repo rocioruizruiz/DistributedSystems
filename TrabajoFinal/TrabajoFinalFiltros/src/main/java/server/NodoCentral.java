@@ -87,17 +87,17 @@ public class NodoCentral {
 	        } catch (ClassNotFoundException ex) {
 	        } catch (IOException ex) {
 	        } finally {
-//	            try {
-//	                os.close();
-//	                is.close();
-//	                sServicio.close();
-//	            } catch (SocketException ex) {
-//	            	System.out.println("Broken pipe! Finishing task...");
-//	            	System.out.println("Ready to use again!");
-//	            }
-//	            catch (IOException ex) {
-//	            	ex.printStackTrace();
-//	            }
+	            try {
+	                os.close();
+	                is.close();
+	                sServicio.close();
+	            } catch (SocketException ex) {
+	            	System.out.println("Broken pipe! Finishing task...");
+	            	System.out.println("Ready to use again!");
+	            }
+	            catch (IOException ex) {
+	            	ex.printStackTrace();
+	            }
 	        }
 	    }
 
@@ -123,6 +123,7 @@ public class NodoCentral {
 		    		if(exists) {	
 		            	System.out.println("El filtro solicitado: " + filtro + " existe!");	            	
 		            	RespuestaControl rc = new RespuestaControl("OK");
+		            	sleep(25000);
 		                this.os.writeObject(rc);  
 		                
 		                //Aqui deberia quedarse a la escuha del path y solicitar a multiservidores.
@@ -141,6 +142,8 @@ public class NodoCentral {
 	    		e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();		
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 	    }
     }
