@@ -12,14 +12,13 @@ import java.net.UnknownHostException;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.conection.AuthDBConnection;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
+import protocol.Peticion;
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
 
@@ -77,7 +76,7 @@ public class Proxy {
 	    private Socket proxySocket;
 	    private ObjectInputStream client_is, proxy_is;
 	    private ObjectOutputStream client_os, proxy_os;
-	    private PeticionDatos peticionCliente;
+	    
 	    
 	    // Constructor 
 	    public ClientHandler(Socket socket) 
@@ -107,28 +106,32 @@ public class Proxy {
 	        	
 		        	this.client_is = new ObjectInputStream( clientSocket.getInputStream() );
 		        	this.client_os = new ObjectOutputStream( clientSocket.getOutputStream() );
-		        	peticionCliente = (PeticionDatos)this.client_is.readObject();
-		        	doAuthentication(peticionCliente);
-		        	// solo sera distinto de null si ya tiene via libre para enviar peticiones al nodo centra
-		        	while(clientSocket != null) {
-		        		peticionCliente = (PeticionDatos)this.client_is.readObject();
-		        		this.proxy_os.writeObject(peticionCliente); // el proxy le manda al servidor lo que dice el cliente	 
-			        	this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le dice el servidor
-		        	
-		        	}
 		        	
 
+		        	while( sServicio != null )
+		            {
+		        		Peticion p = (Peticion)this.client_is.readObject();
+		                if( p.getTipo().compareTo("PETICION_DATOS")==0 ) {
+		                    PeticionDatos pd = (PeticionDatos)p;
+		                    
+		                    if( pd.getSubtipo().compareTo("OP_FILTRO")==0 ) {
+		                        this.doAuthentication(pd);
+		                        
+		                    }     
+		                }
+		            }
 	            
 	        } catch (EOFException ex){
-            	
+            	ex.printStackTrace();
 	        	
             } catch (SocketException ex){
-            	
+            	ex.printStackTrace();
             }
 	        catch(IOException | ClassNotFoundException e){
 	        	e.printStackTrace();
 	        } finally {
 	            try {	//CERRAR ESTO CUANDO SE HAYA TERMINADO EL SISTEMA, AUN ESTA A MEDIAS
+	            	System.out.println("Closing Proxy");
 	                if(proxy_os != null) proxy_os.close();
 	                if(proxy_is != null)proxy_is.close();
 	                if(sServicio != null)sServicio.close();
@@ -137,10 +140,10 @@ public class Proxy {
 	            }
 	        }
 	    }
-	    public void doAuthentication(PeticionDatos pc) {
+	    public void doAuthentication(PeticionDatos pd) {
 	        
-	        String login = (String) pc.getArgs().get(0);
-	        String password = (String) pc.getArgs().get(1);
+	        String login = (String) pd.getArgs().get(0);
+	        String password = (String) pd.getArgs().get(1);
 	        try {
 	            
 	            Bson filter_login = (eq("username", login));
@@ -156,12 +159,19 @@ public class Proxy {
 	            	this.proxySocket = new Socket(nodocentralIP, nodocentralPort); 
 	        		this.proxy_os = new ObjectOutputStream( proxySocket.getOutputStream() );
 		        	this.proxy_is = new ObjectInputStream( proxySocket.getInputStream() );
+		        	System.out.println("1");
+	        		this.proxy_os.writeObject(pd); // el proxy le manda al nodocentral lo que dice el cliente	
+	        		System.out.println("2");
+		        	this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente si existe o no el filtro
+		        	System.out.println("3");
+		        	
+	                pd = (PeticionDatos)this.client_is.readObject(); 
+	                System.out.println("4");
+	                System.out.println("Path: " + pd.getPath() + " Subtipo: " + pd.getSubtipo());
+		        	this.proxy_os.writeObject(pd);	//el proxy espera la ruta de la magen y se lo envia al nodocentral
+		        	this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le dice el nodo central
+		        	System.out.println("Complete");
 
-	        		this.proxy_os.writeObject(peticionCliente); // el proxy le manda al servidor lo que dice el cliente	 
-		        	this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le dice el servidor
-	        	
-	
-	        	       
 	            }
 	            
 	            // CONTRASEÑA INCORRECTA

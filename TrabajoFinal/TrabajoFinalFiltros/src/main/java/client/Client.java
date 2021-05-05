@@ -129,9 +129,11 @@ public class Client {
     private void doFiltering(String filtro, String[] credenciales) {
         try {
             // Creamos una peticion de control
+        	Scanner sc = new Scanner(System.in);
             PeticionDatos pd = new PeticionDatos("OP_FILTRO");
             pd.getArgs().add(credenciales[0]);
             pd.getArgs().add(credenciales[1]);
+            
             pd.setFiltro(filtro);
             
             //Enviamos el objeto serializado
@@ -144,17 +146,13 @@ public class Client {
             
             // Recibimos la respuesta de control del servidor (objeto serializado)
             RespuestaControl rc = (RespuestaControl)this.is.readObject();
-            this_latency = (System.currentTimeMillis()-startTime);
-            latencia_app.add((this_latency));
-            System.out.println("Tiempo de respuesta actual: " + this_latency +"ms.");
-            averageAppLatency();
             
             System.out.println(rc.getSubtipo());
             if(rc.getSubtipo().equals("OP_AUTH_BAD_PASSWORD")) System.out.println("Contraseña incorrecta, inténtelo de nuevo!");
             
             
             else if (rc.getSubtipo().equals("OP_AUTH_NO_USER")) {
-            	Scanner sc = new Scanner(System.in);
+            	
             	System.out.println("Este usuario no existe, desea registrarse con esas credenciales? (y/n)");
             	String registrarse = sc.nextLine();
             	if(registrarse.equals("y")) {
@@ -172,7 +170,26 @@ public class Client {
             		System.out.println("Este filtro ya no esta disponible");
             		s.close();
             	}else if(rc.getSubtipo().equals(("OK"))) {
-            		System.out.println("Filtro disponible! Indique la ruta de la imagen que desea filtrar:");
+
+	        		PeticionDatos pd2 = new PeticionDatos("OP_FILTRO");
+	                pd2.getArgs().add(credenciales[0]);
+	                pd.getArgs().add(credenciales[1]);
+	                 
+	                pd2.setFiltro(filtro);
+	                
+	                System.out.println("Filtro disponible! Indique la ruta de la imagen a editar: ");
+            		String path = sc.nextLine();
+            		pd2.setPath(path); 
+            		System.out.println(pd2.getPath());
+            		this.os.writeObject(pd2);
+            		rc = (RespuestaControl) this.is.readObject(); //
+            		this_latency = (System.currentTimeMillis()-startTime);
+                    latencia_app.add((this_latency));
+                    System.out.println("Tiempo de respuesta actual: " + this_latency +"ms.");
+                    averageAppLatency();
+                    System.out.println("-------------------");
+                    System.out.println("OK");
+
             	}
             }
             

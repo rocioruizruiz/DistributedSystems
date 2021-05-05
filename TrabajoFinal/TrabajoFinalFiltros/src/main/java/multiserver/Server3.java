@@ -1,23 +1,20 @@
-package server;
+package multiserver;
 
 import java.io.*;
 import java.net.*;
-
-import protocol.Peticion;
-import protocol.PeticionDatos;
-import protocol.RespuestaControl;
+import java.util.Scanner;
 
 
+import protocol.*;
 
-
-public class NodoCentral {
+public class Server3 {
 
     ServerSocket s;
     int port = 3339;
-
-	private static int puertoEnvio = 3340; //envio a server1
+    private static int puertoRecepcion = 5000;
+	private static int puertoEnvio = 5012;
    
-    public NodoCentral() {
+    public Server3() {
     	try {
     		System.out.println("Arrancando el Nodo Central...");
             this.init();
@@ -36,11 +33,77 @@ public class NodoCentral {
     }
 
 
-    public static void main(String[] args) {
-        new NodoCentral();
-    	
+//    public static void main(String[] args) {
+//        //new NodoCentral();
+//    	int puertoEnvioNodoControl = 5012; //RECIBE DE MULTISERVIDOR
+//    	
+//
+//		Socket socketDerecha;
+//		try {
+//			socketDerecha = new Socket("localhost", puertoEnvioNodoControl);
+//			ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
+//			PeticionDatos pd = new PeticionDatos("OP_CPU");
+//			outputDerecha.writeObject(pd);
+//			ObjectInputStream inputDerecha = new ObjectInputStream(socketDerecha.getInputStream());
+//			System.out.println("Input creado");
+//			PeticionDatos rc = (PeticionDatos)inputDerecha.readObject();
+//			System.out.println(rc.getSubtipo());
+//			
+//		} catch (IOException e) {
+//			
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			
+//			e.printStackTrace();
+//		}
+//		
+//    }
+    public void main(String[] args) throws IOException {
+		ServerSocket socketIzquierda = new ServerSocket(puertoRecepcion);
+		Socket socketRecepcion;
+		System.out.println("Bienvenido a la terminal cliente que controla la cadena de producción\n");
+		try {
+			
+				boolean done = false;
+				Socket socketEnvio = new Socket("localhost", puertoEnvio);
+				ObjectOutputStream outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
+				
+				PeticionDatos p = new PeticionDatos("OP_CPU");
+				
+	            outputEnvio.writeObject(p);
+	            
+				while (!done) {
+					socketRecepcion = socketIzquierda.accept();
+					ObjectInputStream inputRecepcion = new ObjectInputStream(socketRecepcion.getInputStream());
+					RespuestaControl rc = (RespuestaControl) inputRecepcion.readObject();
+					
+					
+					if (rc.getSubtipo().equals("OK")) {
+						System.out.println("La operación se ha completado con exito!");
+						System.out.println(rc.getTokens() + "\n" + rc.getCpus());
+						int menor = 99999999;
+						int index = 0;
+						for(int i=0; i < rc.getCpus().size(); i++) {
+							if(rc.getCpus().get(i) < menor) index = i;
+						}
+						System.out.println("El de menor carga es: " + rc.getTokens().get(index));
+					
+						done = true;
+						
+					}
+					if (inputRecepcion != null)
+						inputRecepcion.close();
+					if (socketRecepcion != null)
+						socketRecepcion.close();
+				}
+			
+		} catch (UnknownHostException ex) {
+		} catch (IOException ex) {
+			System.out.println(ex);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-    
 
     //--------------------------------------------------------------------------
 
@@ -80,34 +143,21 @@ public class NodoCentral {
 	        try {
 	        	this.is = new ObjectInputStream(sServicio.getInputStream());
 	            this.os = new ObjectOutputStream(sServicio.getOutputStream());
+
+	        	while(true) {
 	            
-	            
-	            System.out.println("1");
-	            while( sServicio!=null )
-	            {
-	            	Peticion p = (Peticion)this.is.readObject();
-	                if( p.getTipo().compareTo("PETICION_DATOS")==0 ) {
-	                	System.out.println("2");
-	                    PeticionDatos pd = (PeticionDatos)p;
-	                    if( pd.getSubtipo().compareTo("OP_CPU")==0 )
-	                        //this.doCPU(pc);
-	                    	System.out.println("3");
-	                    	
-	                    if( pd.getSubtipo().compareTo("OP_FILTRO")==0 ) {
+		            
+		            PeticionDatos pd = (PeticionDatos)this.is.readObject();
+	
+	            	if( pd.getSubtipo().compareTo("OP_FILTRO")==0 ) {
 	                        this.doFiltering(pd);
-	                        System.out.println("4");
-	                    }     
-	                }
-	               
-	            }
+	            	}
+	        	}
 
 	        } catch (ClassNotFoundException ex) {
-	        	ex.printStackTrace();
 	        } catch (IOException ex) {
-	        	ex.printStackTrace();
 	        } finally {
 	            try {
-	            	System.out.println("Closing NodoCentral");
 	                os.close();
 	                is.close();
 	                sServicio.close();
@@ -124,8 +174,8 @@ public class NodoCentral {
 	    //--------------------------------------------------------------------------
 
 	    public void doFiltering(PeticionDatos pd) {
-	    	System.out.println("2");
-	        String filtro = pd.getFiltro();
+	        
+	        String filtro = (String) pd.getFiltro();
 	        File file = new File(PATHFILTERS);
 	    	String last = "";
 	    	boolean exists = false;
@@ -143,48 +193,40 @@ public class NodoCentral {
 		    		if(exists) {	
 		            	System.out.println("El filtro solicitado: " + filtro + " existe!");	            	
 		            	RespuestaControl rc = new RespuestaControl("OK");
+		            	sleep(25000);
 		                this.os.writeObject(rc);  
 		                
 		                //Aqui deberia quedarse a la escuha del path y solicitar a multiservidores.
-		                
-		                
 		                pd = (PeticionDatos)this.is.readObject();
-		                System.out.println("Path: " + pd.getPath() + " Subtipo: " + pd.getSubtipo());
-
-		                //Aqui se conectaria con el multiservidor despues de pedir las cpus y coger el menor, de momento cojo server1
-		                // solicitoCPUSyElijomenor();
 		                
+		                //Aqui se conectaria con el multiservidor despues de pedir las cpus y coger el menor, de momento me lo salto y con nodocontrol directamente
+		                // solicitoCPUSyElijomenor();
 		                // envioAlsolicitadoPeti();
 		                
-        				Socket socketEnvio = new Socket("localhost", puertoEnvio);
-        				System.out.println("entra");
-        				ObjectOutputStream outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
-     
-        				outputEnvio.writeObject(pd);
-        				System.out.println("entra");
-        	            
-        				ObjectInputStream inputEnvio = new ObjectInputStream(socketEnvio.getInputStream());
 		                
-		                this.os.writeObject(inputEnvio.readObject()); //cambiar ok por la respuesta del multiservidor
-		                //this.os.writeObject(new RespuestaControl("OK"));
-		                System.out.println("OK");
+		                this.os.writeObject("OK"); //cambiar ok por la respuesta del multiservidor
 		                
+		                
+		                
+		                
+		                //
 		            }else {
 		            	System.out.println("El filtro solicitado: " + filtro + " NO existe!");	    
 		            	RespuestaControl rc = new RespuestaControl("NOT_OK");
 		                this.os.writeObject(rc);  
 		            }
-	    		} else {  			
+	    		} else { 
+	    			
 		    		System.out.println("No found file"); 
 	    		}
 	    	} catch (FileNotFoundException e) {
-				e.printStackTrace();
-	    	} catch (EOFException e) {
 				e.printStackTrace();
 	    	} catch (SocketException e) {
 	    		e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();		
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
