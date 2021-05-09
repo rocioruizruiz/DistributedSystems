@@ -1,4 +1,3 @@
-FiltroA
-FiltroB
-FiltroC
-FiltroD
+GrayScale
+BandW
+Sature
