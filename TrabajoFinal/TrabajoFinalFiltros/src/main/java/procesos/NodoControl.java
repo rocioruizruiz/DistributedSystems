@@ -25,15 +25,15 @@ public class NodoControl {
 				Socket sProceso;
 				ServerSocket socketCliente = new ServerSocket(puertoRecepcion1);
 				Socket sCliente;
+
 				if ((sProceso = socketProceso.accept()) != null) {
-					
 					// Me acaba de llegar el testigo
 					System.out.println("Aceptada conexion de " + sProceso.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sProceso.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
 					String mensaje = pd.getSubtipo();
 					lastPet.setSubtipo(mensaje);
-					
+
 					// Funcionalidad al activar el nodo de la izquierda (recibir comando)
 					Socket socketDerecha = new Socket("localhost", puertoEnvio2);
 					ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
@@ -49,7 +49,6 @@ public class NodoControl {
 						sProceso.close();
 					if (socketProceso != null)
 						socketProceso.close();
-
 				}
 
 				if ((sCliente = socketCliente.accept()) != null) {
@@ -62,10 +61,18 @@ public class NodoControl {
 						Socket socketDerecha = new Socket("localhost", puertoEnvio1);
 						ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 						RespuestaControl rc = new RespuestaControl("OK");
-						rc.setCpus(pd.getCpus());
-						rc.setTokens(pd.getTokens());
-						System.out.println("OK");
-						outputDerecha.writeObject(rc);
+						if (pd.getSubtipo().compareTo("OP_CPU") == 0) {
+							rc.setCpus(pd.getCpus());
+							rc.setTokens(pd.getTokens());
+							System.out.println("OK");
+							outputDerecha.writeObject(rc);
+						}
+						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
+							rc.setPath(pd.getPath());
+							System.out.println("OK" + rc.getPath());
+							outputDerecha.writeObject(rc);
+							System.out.println("7");
+						}
 						if (outputDerecha != null)
 							outputDerecha.close();
 						if (socketDerecha != null)
@@ -97,7 +104,7 @@ public class NodoControl {
 					}
 				}
 			} catch (IOException ex) {
-				
+				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}
