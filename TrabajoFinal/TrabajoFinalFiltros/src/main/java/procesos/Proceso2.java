@@ -80,7 +80,6 @@ public class Proceso2 {
 					}
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}
