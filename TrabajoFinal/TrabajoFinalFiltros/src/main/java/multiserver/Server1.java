@@ -3,9 +3,11 @@ package multiserver;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.management.ManagementFactory;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Random;
 
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
@@ -19,7 +21,7 @@ public class Server1 {
 
 	public Server1() {
 		try {
-			System.out.println("Arrancando el Server1...");
+			System.out.println("Arrancando el Server 1...");
 			this.init();
 			System.out.println("Abriendo canal de comunicaciones...");
 			this.s = new ServerSocket(port);
@@ -79,6 +81,16 @@ public class Server1 {
 				while (true) {
 
 					PeticionDatos pd = (PeticionDatos) this.is.readObject();
+					
+					if(pd.getSubtipo().compareTo("OP_CPU") == 0) {
+						double sysLoad = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage() + (new Random().nextDouble());
+						System.out.println("Mi carga de CPU es de: " + sysLoad);
+						RespuestaControl rc_cpus = new RespuestaControl("OK");
+						rc_cpus.getCpus().add(sysLoad);
+						System.out.println("1" + rc_cpus.getCpus());
+						this.os.writeObject(rc_cpus);
+						System.out.println("1");
+					}
 
 					if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) { 
 						// CPUs
@@ -136,6 +148,18 @@ public class Server1 {
 							rc = (RespuestaControl) inputRecepcion.readObject();
 							System.out.println(rc.getSubtipo() + " / " + rc.getPath());
 							this.os.writeObject(rc);
+							
+							if (inputRecepcion != null)
+								inputRecepcion.close();
+							if (socketRecepcion != null)
+								socketRecepcion.close();
+							if (outputEnvio != null)
+								outputEnvio.close();
+							if (socketEnvio != null)
+								socketEnvio.close();
+							if(socketIzquierda != null) {
+								socketIzquierda.close();
+							}
 						}
 						System.out.println("4");
 					}

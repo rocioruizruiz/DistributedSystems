@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 import protocol.Peticion;
 import protocol.PeticionDatos;
@@ -57,7 +58,8 @@ public class NodoCentral {
 		private final Socket clientSocket;
 		private ObjectInputStream is;
 		private ObjectOutputStream os;
-		private String PATHFILTERS = "/home/agus/eclipse-workspace/TrabajoFinalFiltros/src/main/resources/filters.txt"; // Tipos de filtros que hay  para comprobar si existen. Local del NodoCentral
+		private String PATHFILTERS = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/filters.txt"; // Tipos de filtros que hay  para comprobar si existen. Local del NodoCentral
+		private String PATHSERVERS = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/servers.txt"; // Tipos de filtros que hay  para comprobar si existen. Local del NodoCentral
 		
 		// Constructor
 		public ClientHandler(Socket socket) {
@@ -88,8 +90,8 @@ public class NodoCentral {
 					if (p.getTipo().compareTo("PETICION_DATOS") == 0) {
 						System.out.println("2");
 						PeticionDatos pd = (PeticionDatos) p;
-						if (pd.getSubtipo().compareTo("OP_CPU") == 0)
-							// this.doCPU(pc);
+//						if (pd.getSubtipo().compareTo("OP_CPU") == 0)
+//							// this.doCPU(pc);
 							System.out.println("3");
 
 						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
@@ -144,18 +146,61 @@ public class NodoCentral {
 						RespuestaControl rc = new RespuestaControl("OK");
 						this.os.writeObject(rc);
 
-						// Aqui deberia quedarse a la escuha del path y solicitar a multiservidores.
 
-						pd = (PeticionDatos) this.is.readObject();
+						pd = (PeticionDatos) this.is.readObject(); // El proxy nos manda la petición especificando la ruta
 						System.out.println("Path: " + pd.getPath() + " Subtipo: " + pd.getSubtipo());
 
-						// Aqui se conectaria con el multiservidor despues de pedir las cpus y coger el
-						// menor, de momento cojo server1
-						// solicitoCPUSyElijomenor();
+						//**********************************+
+						
+						//creo petición de CPUS
+						PeticionDatos pdCPU =  new PeticionDatos("OP_CPU");
+						
+						//se la mando a todos los servidores
 
-						// envioAlsolicitadoPeti();
+						String ipElegido = "";
+						int portElegido = 3340;
+						file = new File(PATHSERVERS);
+						last = "";
+						
+						if (file.exists()) {
+							br = new BufferedReader(new FileReader(file));
+							last = br.readLine();
+							
+							
+							
+							double menor = 999999999.99999999;
+							while (last != null) {
+								String[] address = last.split(";");
+								System.out.println("Creando socket: " + address[0] + " - " + address[1]);
+								Socket socketCPU = new Socket(address[1], Integer.parseInt(address[0]));
+								System.out.println("1");
+								ObjectOutputStream os_cpu = new ObjectOutputStream(socketCPU.getOutputStream());
+								System.out.println("2");
+								os_cpu.writeObject(pdCPU);
+								System.out.println("3");
+								ObjectInputStream is_cpu = new ObjectInputStream(socketCPU.getInputStream());
+								System.out.println("4");
+								//recibo respuestas
+								RespuestaControl rc_CPUS = (RespuestaControl) is_cpu.readObject();
+								System.out.println("CPUS: " + rc_CPUS.getCpus().get(0));
+								if(rc_CPUS.getCpus().size() > 0 && rc_CPUS.getCpus().get(0) < menor) {
+									//elijo el menor
+									ipElegido = address[1];
+									portElegido =  Integer.parseInt(address[0]);
+									menor = rc_CPUS.getCpus().get(0);
+								}
+								last = br.readLine();
+							}
+							br.close();
+							
 
-						Socket socketEnvio = new Socket("localhost", puertoEnvio);
+						}
+						
+						
+						
+						//***********************************
+
+						Socket socketEnvio = new Socket(ipElegido, portElegido);
 						System.out.println("entra");
 						ObjectOutputStream outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
 
