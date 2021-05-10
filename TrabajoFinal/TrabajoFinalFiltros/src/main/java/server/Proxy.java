@@ -93,7 +93,7 @@ public class Proxy {
 
 		public void procesaCliente(Socket sServicio) throws UnknownHostException, IOException, ClassNotFoundException {
 			try {
-				// proxy actua como cliente** ante los servidores
+				// proxy actua como cliente ** ante los servidores
 
 				this.client_is = new ObjectInputStream(clientSocket.getInputStream());
 				this.client_os = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -111,13 +111,12 @@ public class Proxy {
 
 			} catch (EOFException ex) {
 				ex.printStackTrace();
-
 			} catch (SocketException ex) {
 				ex.printStackTrace();
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			} finally {
-				try { // CERRAR ESTO CUANDO SE HAYA TERMINADO EL SISTEMA, AUN ESTA A MEDIAS
+				try { 
 					System.out.println("Closing Proxy");
 					if (proxy_os != null)
 						proxy_os.close();

@@ -22,7 +22,7 @@ import protocol.RespuestaControl;
 public class Admin2 {
 
 	ServerSocket admin2;
-	private static int admin2Port = 3340;
+	private static int admin2Port = 3342;
 	private static MongoDatabase authdb;
 
 	public Admin2() {

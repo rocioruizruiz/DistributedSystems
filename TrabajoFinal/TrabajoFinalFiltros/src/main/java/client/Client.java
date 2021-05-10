@@ -22,7 +22,7 @@ public class Client {
 	private ObjectInputStream is;
 	private static int PROXY = 3338;
 	private static String ip = "localhost";
-	private static int portAdmin2 = 3340;
+	private static int portAdmin2 = 3342;
 	private static String ipAdmin2 = "localhost";
 	private ArrayList<Long> latencia_red = new ArrayList<Long>();
 	private ArrayList<Long> latencia_app = new ArrayList<Long>();
@@ -112,8 +112,6 @@ public class Client {
 		if (this.s != null) {
 			try {
 				// Creamos una peticion de control, la serializamos y la mandamos
-				PeticionControl p = new PeticionControl("OP_LOGOUT");
-				this.os.writeObject(p);
 				this.is.close();
 				this.is = null;
 				this.os.close();
