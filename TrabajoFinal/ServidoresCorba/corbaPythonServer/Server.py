@@ -6,22 +6,24 @@ import CosNaming
 import PortableServer
 import FilterApp
 import FilterApp__POA
+from os import listdir
+from os.path import isfile, join
 
 n = 0
+
 class FilterImpl (FilterApp__POA.Filter):
     def applyFilter(self, filtro, imgpath):
-        destPath = ""
-        if(filtro == "GrayScale"):
-            exec(open("/mnt/clientPythonFilter/GrayScale.py").read(), globals(), locals())
-            GrayScale(filtro, imgpath)
-        elif(filtro == "BandW"):
-            exec(open("/mnt/clientPythonFilter/BandW.py").read(), globals(), locals())
-            return BandW(filtro, imgpath)
-        elif(filtro == "Sature"):
-            exec(open("/mnt/clientPythonFilter/Sature.py").read(), globals(), locals())
-            return Sature(filtro, imgpath)
+        allFilters = [f for f in listdir(
+            "/mnt/clientPythonFilter/") if isfile(join("/mnt/clientPythonFilter/", f))]
+        for f in allFilters:
+            os.path.splitext(f)
+            filterName = os.path.splitext(f)[0]
+            if(filtro == filterName):
+                exec(open("/mnt/clientPythonFilter/" + f).read(), globals(), locals())
+                return "Done!"
         else:
-            return "ERROR"
+            return "Error. Filter does not exist."
+
 
 sys.argv.extend(("-ORBInitRef", "NameService=corbaname::localhost:1050"))
 
