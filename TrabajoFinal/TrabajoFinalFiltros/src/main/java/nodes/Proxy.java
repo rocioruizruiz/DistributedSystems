@@ -152,17 +152,19 @@ public class Proxy {
 					System.out.println("1");
 					this.proxy_os.writeObject(pd); // el proxy le manda al nodocentral lo que dice el cliente
 					System.out.println("2");
-					this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente si existe o
+					RespuestaControl rc = (RespuestaControl)this.proxy_is.readObject();
+					this.client_os.writeObject(rc); // el proxy le manda al cliente si existe o
 																			// no el filtro
 					System.out.println("3");
-
-					pd = (PeticionDatos) this.client_is.readObject();
-					System.out.println("4");
-					System.out.println("Path: " + pd.getPath() + " Subtipo: " + pd.getSubtipo());
-					this.proxy_os.writeObject(pd); // el proxy espera la ruta de la magen y se lo envia al nodocentral
-					this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le
-																			// dice el nodo central
-					System.out.println("Complete");
+					if(rc.getSubtipo().contentEquals("OK")){
+						pd = (PeticionDatos) this.client_is.readObject();
+						System.out.println("4");
+						System.out.println("Path: " + pd.getPath() + " Subtipo: " + pd.getSubtipo());
+						this.proxy_os.writeObject(pd); // el proxy espera la ruta de la magen y se lo envia al nodocentral
+						this.client_os.writeObject(this.proxy_is.readObject()); // el proxy le manda al cliente lo que le dice el nodo central														// dice el nodo central
+						System.out.println("Complete");
+					}
+					
 
 				}
 

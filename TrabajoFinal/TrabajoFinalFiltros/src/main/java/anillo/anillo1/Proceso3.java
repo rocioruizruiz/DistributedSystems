@@ -60,7 +60,6 @@ public class Proceso3 {
 					}
 
 					if (done) {
-						System.out.println("1");
 						Socket socketDerecha = new Socket("localhost", puertoDerecha);
 						ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 						outputDerecha.writeObject(pd);
@@ -112,11 +111,13 @@ public class Proceso3 {
 			System.out.println("Obtained a handle on server object: " + filterImpl);
 			resultPath = filterImpl.applyFilter(filter, path);
 			System.out.println("Result path: " + resultPath);
+			return resultPath;
 		} catch (Exception e) {
 			System.out.println("ERROR : " + e);
 			e.printStackTrace(System.out);
+			return "NOT_OK";
 		}
-		return resultPath;
+		
 	}
 
 	public String getToken() {

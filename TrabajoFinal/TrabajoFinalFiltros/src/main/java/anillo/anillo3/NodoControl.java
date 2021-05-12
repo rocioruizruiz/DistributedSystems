@@ -69,8 +69,13 @@ public class NodoControl {
 							outputDerecha.writeObject(rc);
 						}
 						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
-							rc.setPath(pd.getPath());
-							System.out.println("OK" + rc.getPath());
+							if(!pd.getPath().contentEquals("NOT_OK")) {
+								rc.setPath(pd.getPath());
+							}else {
+								rc.setSubtipo("NOT_OK");
+								System.out.println("NOT_OK");
+							}
+							
 							outputDerecha.writeObject(rc);
 							System.out.println("7");
 						}

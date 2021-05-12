@@ -1,6 +1,7 @@
 package client;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -170,7 +171,7 @@ public class Client {
 
 				if (rc.getSubtipo().equals(("NOT_OK"))) {
 					System.out.println("Este filtro ya no esta disponible");
-					s.close();
+					
 				} else if (rc.getSubtipo().equals(("OK"))) {
 
 					PeticionDatos pd2 = new PeticionDatos("OP_FILTRO");
@@ -181,16 +182,24 @@ public class Client {
 
 					System.out.println("Filtro disponible! Indique la ruta de la imagen a editar: ");
 					String path = sc.nextLine();
-					pd2.setPath(path);
-					System.out.println(pd2.getPath());
-					this.os.writeObject(pd2);
-					rc = (RespuestaControl) this.is.readObject(); //
-					this_latency = (System.currentTimeMillis() - startTime);
-					latencia_app.add((this_latency));
-					System.out.println("Tiempo de respuesta actual: " + this_latency + "ms.");
-					averageAppLatency();
-					System.out.println("-------------------");
-					System.out.println("Resultado de la solucitud: " + rc.getSubtipo() + " - Path final: " + rc.getPath());
+					File file = new File(path);
+					if(file.exists()) {
+						pd2.setPath(path);
+						System.out.println(pd2.getPath());
+						this.os.writeObject(pd2);
+						rc = (RespuestaControl) this.is.readObject(); //
+						this_latency = (System.currentTimeMillis() - startTime);
+						latencia_app.add((this_latency));
+						System.out.println("Tiempo de respuesta actual: " + this_latency + "ms.");
+						averageAppLatency();
+						System.out.println("-------------------");
+						System.out.println("Resultado de la solucitud: " + rc.getSubtipo());
+						if(rc.getSubtipo().equals("OK")) System.out.println("Path final: " + rc.getPath());
+					}else {
+						System.out.println("Ruta incorrecta");
+					}
+					
+					
 				}
 			}
 
