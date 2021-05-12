@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
 import org.omg.CORBA.ORB;
@@ -19,11 +20,16 @@ import FilterApp.FilterPOA;
 
 class FilterImpl extends FilterPOA {
 	private ORB orb;
+	private int n = 1;
 
 	public String applyFilter(String filtro, String imgpath) {
 		File originalPath = new File(imgpath);
+		String imgName = imgpath.substring(imgpath.lastIndexOf('/')+1, imgpath.lastIndexOf('.'));
+		String format = imgpath.substring(imgpath.lastIndexOf('.')+1, imgpath.length());
+		String outputPath = "/Volumes/filteredImages/" + imgName + n + ".jpg";
 		try {
 			BufferedImage image = ImageIO.read(originalPath);
+			
 			if (filtro.equals("GrayScale")) {
 				BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(),
 						BufferedImage.TYPE_BYTE_GRAY);
@@ -32,10 +38,12 @@ class FilterImpl extends FilterPOA {
 				graphics.drawImage(image, 0, 0, null);
 				graphics.dispose();
 
-				File output = new File(originalPath + "-edit"); // Aqui iria la carpeta de destino NFS
+				
+				File output = new File(outputPath); 
 				ImageIO.write(result, "jpg", output);
 				System.out.println(output.getPath());
-				System.out.println("Done!");
+				System.out.println("Done!"); n++;
+				return outputPath;
 			} else if (filtro.equals("BandW")) {
 				BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(),
 						BufferedImage.TYPE_BYTE_BINARY);
@@ -44,10 +52,11 @@ class FilterImpl extends FilterPOA {
 				graphic.drawImage(image, 0, 0, Color.WHITE, null);
 				graphic.dispose();
 
-				File output = new File(originalPath + "-edit"); // Aqui iria la carpeta de destino NFS
+				File output = new File(outputPath); 
 				ImageIO.write(result, "jpg", output);
 				System.out.println(output.getPath());
-				System.out.println("Done!");
+				System.out.println("Done!"); n++;
+				return outputPath;
 			} else if (filtro.equals("Sature")) {
 				BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(),
 						BufferedImage.TYPE_3BYTE_BGR);
@@ -58,17 +67,25 @@ class FilterImpl extends FilterPOA {
 				graphics.drawImage(image, 0, 0, null);
 				graphics.dispose();
 
-				File output = new File(originalPath + "-edit"); // Aqui iria la carpeta de destino NFS
+				File output = new File(outputPath); // Aqui iria la carpeta de destino NFS
 				ImageIO.write(result, "jpg", output);
 				System.out.println(output.getPath());
-				System.out.println("Done!");
+				System.out.println("Done!"); n++;
+				return outputPath;
 			} else {
 				System.out.println("ERROR. FILTER NOT FOUND.");
+				return "Se ha producido un error";
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+		} catch(IIOException e) {
+			System.out.println("Can`t read input file");
+			return "Can`t read input file";
 		}
-		return originalPath.getPath();
+		catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+		
 	}
 
 	public void setORB(ORB orb_val) {

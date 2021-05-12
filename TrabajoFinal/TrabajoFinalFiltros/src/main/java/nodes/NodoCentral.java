@@ -91,7 +91,6 @@ public class NodoCentral {
 
 					if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
 						this.doFiltering(pd);
-						System.out.println("4");
 					}
 
 				}
@@ -117,7 +116,6 @@ public class NodoCentral {
 		// --------------------------------------------------------------------------
 
 		public void doFiltering(PeticionDatos pd) {
-			System.out.println("2");
 			String filtro = pd.getFiltro();
 			System.out.println(filtro);
 			File file = new File(PATHFILTERS);
@@ -128,7 +126,6 @@ public class NodoCentral {
 			boolean exists = false;
 			for (String pathname : pathnames) {
 				fileName = pathname.replaceFirst("[.][^.]+$", "");
-				System.out.println(fileName);
 				if (fileName.equals(filtro)) {
 					exists = true;
 					break;
@@ -136,6 +133,7 @@ public class NodoCentral {
 			}
 
 			String last = "";
+			Socket socketEnvio = null;
 			try {
 				if (exists) {
 					System.out.println("El filtro solicitado: " + filtro + " existe!");
@@ -168,13 +166,9 @@ public class NodoCentral {
 							String[] address = last.split(";");
 							System.out.println("Creando socket: " + address[0] + " - " + address[1]);
 							Socket socketCPU = new Socket(address[1], Integer.parseInt(address[0]));
-							System.out.println("1");
 							ObjectOutputStream os_cpu = new ObjectOutputStream(socketCPU.getOutputStream());
-							System.out.println("2");
 							os_cpu.writeObject(pdCPU);
-							System.out.println("3");
 							ObjectInputStream is_cpu = new ObjectInputStream(socketCPU.getInputStream());
-							System.out.println("4");
 							// recibo respuestas
 							RespuestaControl rc_CPUS = (RespuestaControl) is_cpu.readObject();
 							System.out.println("CPUS: " + rc_CPUS.getCpus().get(0));
@@ -192,23 +186,16 @@ public class NodoCentral {
 
 					// ***********************************
 
-					Socket socketEnvio = new Socket(ipElegido, portElegido);
-					System.out.println("entra");
+					socketEnvio = new Socket(ipElegido, portElegido);
 					ObjectOutputStream outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
 
 					outputEnvio.writeObject(pd);
-					System.out.println("entra");
 
 					ObjectInputStream inputEnvio = new ObjectInputStream(socketEnvio.getInputStream());
 
 					rc = (RespuestaControl) inputEnvio.readObject();
-					System.out.println(rc.getSubtipo() + " / " + rc.getPath());
+					System.out.println("Resultado de operación: " + rc.getSubtipo() + " - Ruta final: " + rc.getPath());
 					this.os.writeObject(rc);
-
-					// this.os.writeObject(inputEnvio.readObject()); //cambiar ok por la respuesta
-					// del multiservidor
-					// this.os.writeObject(new RespuestaControl("OK"));
-					System.out.println("OK");
 
 				} else {
 					System.out.println("El filtro solicitado: " + filtro + " NO existe!");
@@ -226,6 +213,15 @@ public class NodoCentral {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
+			}finally{
+				if(socketEnvio != null)
+					try {
+						socketEnvio.close();
+						if(this.is != null) this.is.close();
+						if(this.os != null) this.os.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 			}
 		}
 	}

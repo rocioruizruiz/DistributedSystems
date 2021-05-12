@@ -190,7 +190,7 @@ public class Client {
 					System.out.println("Tiempo de respuesta actual: " + this_latency + "ms.");
 					averageAppLatency();
 					System.out.println("-------------------");
-					System.out.println("OK");
+					System.out.println("Resultado de la solucitud: " + rc.getSubtipo() + " - Path final: " + rc.getPath());
 				}
 			}
 

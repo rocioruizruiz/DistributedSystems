@@ -50,8 +50,8 @@ public class Proceso2 {
 					if (mensaje.toString().compareTo("OP_FILTRO") == 0) {
 						System.out.println("My token: " + this.token);
 						if (pd.getNodoanillo().equals(this.token)) {
-							doFiltro(pd.getFiltro(), pd.getPath());
-							pd.setPath("/home/agus/Documents/");
+							String resultPath = doFiltro(pd.getFiltro(), pd.getPath());
+							pd.setPath(resultPath);
 							done = true;
 						} else {
 							System.out.println("OP not sent to my token");
@@ -95,8 +95,9 @@ public class Proceso2 {
 		return sysLoad;
 	}
 
-	public void doFiltro(String filter, String path) {
+	public String doFiltro(String filter, String path) {
 		String[] args = null;
+		String resultPath = "";
 		try {
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, null);
@@ -109,12 +110,14 @@ public class Proceso2 {
 			Filter filterImpl = FilterHelper.narrow(objRef);
 
 			System.out.println("Obtained a handle on server object: " + filterImpl);
-			filterImpl.applyFilter(filter, path);
+			resultPath = filterImpl.applyFilter(filter, path);
+			System.out.println("Result path: " + resultPath);
 
 		} catch (Exception e) {
 			System.out.println("ERROR : " + e);
 			e.printStackTrace(System.out);
 		}
+		return resultPath;
 	}
 
 	public String getToken() {
