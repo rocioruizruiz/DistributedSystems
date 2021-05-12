@@ -84,20 +84,14 @@ public class NodoCentral {
 				this.is = new ObjectInputStream(sServicio.getInputStream());
 				this.os = new ObjectOutputStream(sServicio.getOutputStream());
 
-				System.out.println("1");
-				while (sServicio != null) {
-					Peticion p = (Peticion) this.is.readObject();
-					if (p.getTipo().compareTo("PETICION_DATOS") == 0) {
-						System.out.println("2");
-						PeticionDatos pd = (PeticionDatos) p;
-//						if (pd.getSubtipo().compareTo("OP_CPU") == 0)
-//							// this.doCPU(pc);
-						System.out.println("3");
+				Peticion p = (Peticion) this.is.readObject();
+				if (p.getTipo().compareTo("PETICION_DATOS") == 0) {
+					
+					PeticionDatos pd = (PeticionDatos) p;
 
-						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
-							this.doFiltering(pd);
-							System.out.println("4");
-						}
+					if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
+						this.doFiltering(pd);
+						System.out.println("4");
 					}
 
 				}
@@ -108,7 +102,6 @@ public class NodoCentral {
 				ex.printStackTrace();
 			} finally {
 				try {
-					System.out.println("Closing NodoCentral");
 					os.close();
 					is.close();
 					sServicio.close();
