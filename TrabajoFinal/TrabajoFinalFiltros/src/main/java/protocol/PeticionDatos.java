@@ -2,8 +2,6 @@ package protocol;
 
 import java.util.ArrayList;
 
-import server.Pair;
-
 public class PeticionDatos extends Peticion {
 	private ArrayList args;
 	private String filtro;

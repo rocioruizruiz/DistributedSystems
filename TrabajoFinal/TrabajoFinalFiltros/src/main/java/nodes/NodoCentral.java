@@ -1,4 +1,4 @@
-package server;
+package nodes;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
@@ -49,7 +49,7 @@ public class NodoCentral {
 	// --------------------------------------------------------------------------
 
 	public void init() {
-		// Codigo de inicializacion ...
+		
 	}
 
 	private static class ClientHandler extends Thread {
@@ -58,8 +58,8 @@ public class NodoCentral {
 		private ObjectInputStream is;
 		private ObjectOutputStream os;
 
-		private String PATHFILTERS = "/mnt/clientPythonFilter/"; // Tipos de filtros que hay para comprobar si existen. Local del NodoCentral
-		private String PATHSERVERS = "/home/agus/eclipse-workspace/TrabajoFinalFiltros/src/main/resources/servers.txt"; // Tipos de servers que hay para conectarse. Local del NodoCentral
+		private String PATHFILTERS = "/Volumes/pythonFilters"; // Tipos de filtros que hay para comprobar si existen. Local del NodoCentral
+		private String PATHSERVERS = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/servers.txt"; // Tipos de servers que hay para conectarse. Local del NodoCentral
 																									
 		// Constructor
 		public ClientHandler(Socket socket) {
@@ -149,7 +149,8 @@ public class NodoCentral {
 					RespuestaControl rc = new RespuestaControl("OK");
 					this.os.writeObject(rc);
 
-					pd = (PeticionDatos) this.is.readObject(); // El proxy nos manda la petición especificando la ruta
+					pd = (PeticionDatos) this.is.readObject(); // El proxy nos manda la petición especificando la
+																// ruta
 					System.out.println("Path: " + pd.getPath() + " Subtipo: " + pd.getSubtipo());
 
 					// **********************************+

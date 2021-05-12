@@ -1,4 +1,4 @@
-package server;
+package nodes;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -116,7 +116,7 @@ public class Proxy {
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			} finally {
-				try { 
+				try {
 					System.out.println("Closing Proxy");
 					if (proxy_os != null)
 						proxy_os.close();

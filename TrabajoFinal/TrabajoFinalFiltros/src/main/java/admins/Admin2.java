@@ -1,4 +1,4 @@
-package server;
+package admins;
 
 import static com.mongodb.client.model.Filters.eq;
 

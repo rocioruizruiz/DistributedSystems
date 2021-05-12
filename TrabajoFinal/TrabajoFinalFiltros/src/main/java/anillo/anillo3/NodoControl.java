@@ -1,4 +1,4 @@
-package procesos;
+package anillo.anillo3;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,22 +11,23 @@ import protocol.RespuestaControl;
 
 public class NodoControl {
 
-	private static int puertoRecepcion1 = 5011;
-	private static int puertoRecepcion2 = 5012;
-	private static int puertoEnvio1 = 5000;
-	private static int puertoEnvio2 = 5001;
+	private static int puertoEscuchaServer = 5021;
+	private static int puertoEscuchaProceso3 = 5025;
+	
+	private static int puertoEnvioAServer = 5020;
+	private static int puertoEnvioAProceso1 = 5022;
 
 	private static PeticionDatos lastPet = new PeticionDatos();
 
 	public static void main(String[] args) throws IOException {
 		while (true) {
 			try {
-				ServerSocket socketProceso = new ServerSocket(puertoRecepcion2);
+				ServerSocket socketProceso = new ServerSocket(puertoEscuchaServer);
 				Socket sProceso;
-				ServerSocket socketCliente = new ServerSocket(puertoRecepcion1);
+				ServerSocket socketCliente = new ServerSocket(puertoEscuchaProceso3);
 				Socket sCliente;
 
-				if ((sProceso = socketProceso.accept()) != null) {
+				if ((sProceso = socketProceso.accept()) != null) {  //Me llega del server2 y paso peti a proceso 1
 					// Me acaba de llegar el testigo
 					System.out.println("Aceptada conexion de " + sProceso.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sProceso.getInputStream());
@@ -35,7 +36,7 @@ public class NodoControl {
 					lastPet.setSubtipo(mensaje);
 
 					// Funcionalidad al activar el nodo de la izquierda (recibir comando)
-					Socket socketDerecha = new Socket("localhost", puertoEnvio2);
+					Socket socketDerecha = new Socket("localhost", puertoEnvioAProceso1);
 					ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 					outputDerecha.writeObject(pd);
 					if (outputDerecha != null)
@@ -51,14 +52,14 @@ public class NodoControl {
 						socketProceso.close();
 				}
 
-				if ((sCliente = socketCliente.accept()) != null) {
+				if ((sCliente = socketCliente.accept()) != null) {		//Me llega del proceso 3 y paso respuesta a server2∫
 					// Me acaba de llegar el testigo
 					System.out.println("Aceptada conexion de " + sCliente.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sCliente.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
 					System.out.println(pd.getSubtipo() + " -- " + lastPet.getSubtipo());
 					if (pd.getSubtipo().equals(lastPet.getSubtipo())) {
-						Socket socketDerecha = new Socket("localhost", puertoEnvio1);
+						Socket socketDerecha = new Socket("localhost", puertoEnvioAServer);
 						ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 						RespuestaControl rc = new RespuestaControl("OK");
 						if (pd.getSubtipo().compareTo("OP_CPU") == 0) {
@@ -85,7 +86,7 @@ public class NodoControl {
 						if (socketCliente != null)
 							socketCliente.close();
 					} else {
-						Socket socketDerecha = new Socket("localhost", puertoEnvio1);
+						Socket socketDerecha = new Socket("localhost", puertoEnvioAServer);
 						ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 						RespuestaControl rc = new RespuestaControl("NOT_OK");
 						System.out.println("NOT_OK");
@@ -103,9 +104,7 @@ public class NodoControl {
 							socketCliente.close();
 					}
 				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			} catch (ClassNotFoundException ex) {
+			} catch (IOException | ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}
 		}

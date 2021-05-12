@@ -1,4 +1,4 @@
-package procesos;
+package anillo.anillo3;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,17 +15,17 @@ import FilterApp.Filter;
 import FilterApp.FilterHelper;
 import protocol.PeticionDatos;
 
-public class Proceso2 {
+public class Proceso1 {
 
-	private int puertoIzquierda = 5002;
-	private int puertoDerecha = 5003;
+	private int puertoIzquierda = 5022;
+	private int puertoDerecha = 5023;
 	private String token = "";
 
 	public static void main(String[] args) {
-		new Proceso2();
+		new Proceso1();
 	}
 
-	public Proceso2() {
+	public Proceso1() {
 		this.setToken(UUID.randomUUID().toString());
 		while (true) {
 			try {
