@@ -40,10 +40,8 @@ public class Admin2 {
 				ClientHandler clientSock = new ClientHandler(sServicio);
 				new Thread(clientSock).start();
 			}
-
 		} catch (SocketException ex) {
 			System.out.println("BAD CONECTION");
-
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -73,7 +71,6 @@ public class Admin2 {
 			try {
 				// start
 				procesaCliente(clientSocket);
-
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -113,7 +110,7 @@ public class Admin2 {
 		}
 
 		// --------------------------------------------------------------------------
-		// CREAR: Metodo para registro de usuarios
+
 		public void doRegister(PeticionControl pc) {
 
 			String username = (String) pc.getArgs().get(0);
@@ -126,7 +123,6 @@ public class Admin2 {
 					RespuestaControl rc = new RespuestaControl("OP_REG_NOK");
 					this.os.writeObject(rc);
 					System.out.println("Usuario " + username + " no registrado porque ya existe");
-
 				} else {
 					authdb.getCollection("Users")
 							.insertOne(new Document("username", username).append("password", password));
@@ -138,7 +134,6 @@ public class Admin2 {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-
 		}
 	}
 }

@@ -9,6 +9,7 @@ public class PeticionDatos extends Peticion {
 	private String path;
 	private ArrayList<String> tokens;
 	private ArrayList<Double> cpus;
+	private ArrayList<Long> time;
 
 	// --------------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ public class PeticionDatos extends Peticion {
 		this.cpus = new ArrayList<Double>();
 		this.tokens = new ArrayList<String>();
 		this.nodoanillo = new String();
+		this.time = new ArrayList<Long>();
 
 	}
 
@@ -34,6 +36,7 @@ public class PeticionDatos extends Peticion {
 		this.cpus = new ArrayList<Double>();
 		this.tokens = new ArrayList<String>();
 		this.nodoanillo = new String();
+		this.time = new ArrayList<Long>();
 
 	}
 
@@ -107,6 +110,18 @@ public class PeticionDatos extends Peticion {
 
 	public void setNodoanillo(String nodoanillo) {
 		this.nodoanillo = nodoanillo;
+	}
+
+	// --------------------------------------------------------------------------
+	
+	public ArrayList<Long> getTime() {
+		return time;
+	}
+
+	// --------------------------------------------------------------------------
+	
+	public void setTime(ArrayList<Long> time) {
+		this.time = time;
 	}
 
 }

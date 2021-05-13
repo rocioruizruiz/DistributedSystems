@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.Random;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 
 import FilterApp.Filter;
@@ -20,6 +22,8 @@ public class Proceso2 {
 	private int puertoIzquierda = 5023;
 	private int puertoDerecha = 5024;
 	private String token = "";
+
+	private static final Logger LOGGER = LogManager.getLogger(Proceso2.class);
 
 	public static void main(String[] args) {
 		new Proceso2();
@@ -33,6 +37,8 @@ public class Proceso2 {
 				Socket sIzquierda;
 				while ((sIzquierda = socketIzquierda.accept()) != null) {
 					// Me acaba de llegar el testigo
+					LOGGER.info(
+							"Proceso 2 de Anillo 3 ha aceptado la conexión " + sIzquierda.getInetAddress().toString());
 					System.out.println("Aceptada conexion de " + sIzquierda.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sIzquierda.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
@@ -41,6 +47,7 @@ public class Proceso2 {
 					// Funcionalidad al activar el nodo de la izquierda (recibir comando)
 					boolean done = false;
 					if (mensaje.toString().compareTo("OP_CPU") == 0) {
+						LOGGER.info("Realizando cálculo de mi CPU.");
 						double sysLoad = doCPU();
 						pd.getCpus().add(sysLoad);
 						pd.getTokens().add(this.token);
@@ -48,19 +55,20 @@ public class Proceso2 {
 						done = true;
 					}
 					if (mensaje.toString().compareTo("OP_FILTRO") == 0) {
+						LOGGER.info("Realizando operación de filtrado.");
 						System.out.println("My token: " + this.token);
 						if (pd.getNodoanillo().equals(this.token)) {
 							String resultPath = doFiltro(pd.getFiltro(), pd.getPath());
 							pd.setPath(resultPath);
 							done = true;
 						} else {
+							LOGGER.info("Operación de filtrado no enviado a mi.");
 							System.out.println("OP not sent to my token");
 							done = true;
 						}
 					}
 
 					if (done) {
-						System.out.println("1");
 						Socket socketDerecha = new Socket("localhost", puertoDerecha);
 						ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 						outputDerecha.writeObject(pd);
@@ -81,6 +89,7 @@ public class Proceso2 {
 				}
 			} catch (IOException ex) {
 			} catch (ClassNotFoundException ex) {
+				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
 			}
 		}
@@ -114,6 +123,7 @@ public class Proceso2 {
 			System.out.println("Result path: " + resultPath);
 
 		} catch (Exception e) {
+			LOGGER.error("Error while executing thread", e);
 			System.out.println("ERROR : " + e);
 			e.printStackTrace(System.out);
 		}

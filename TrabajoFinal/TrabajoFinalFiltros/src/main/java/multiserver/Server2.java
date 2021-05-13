@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
 
@@ -19,6 +22,8 @@ public class Server2 {
 	private static int puertoRecepcionNodoControl = 5010;
 	private static int puertoEnvioNodoControl = 5011;
 
+	private static final Logger LOGGER = LogManager.getLogger(Server2.class);
+
 	public Server2() {
 		try {
 			System.out.println("Arrancando el Server2 ...");
@@ -27,13 +32,14 @@ public class Server2 {
 			this.s = new ServerSocket(port);
 			while (true) {
 				Socket sServicio = s.accept();
+				LOGGER.info("Server 2 ha aceptado la conexión " + sServicio.getInetAddress().toString());
 				System.out.println("Aceptada conexion de " + sServicio.getInetAddress().toString());
 				ClientHandler clientSock = new ClientHandler(sServicio);
 				new Thread(clientSock).start();
 			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			LOGGER.error("I/O error while executing thread", ex);
+			ex.printStackTrace();
 		}
 	}
 
@@ -44,7 +50,7 @@ public class Server2 {
 	// --------------------------------------------------------------------------
 
 	public void init() {
-		// Codigo de inicializacion ...
+
 	}
 
 	private static class ClientHandler extends Thread {
@@ -62,25 +68,32 @@ public class Server2 {
 			try {
 				// start
 				procesaCliente(clientSocket);
-
-			} catch (Error e) {
-				e.printStackTrace();
+			} catch (Error ex) {
+				LOGGER.error("Error while executing thread", ex);
+				ex.printStackTrace();
 			}
-
 		}
 
 		// --------------------------------------------------------------------------
 
 		public void procesaCliente(Socket sServicio) {
 			try {
-
 				this.is = new ObjectInputStream(sServicio.getInputStream());
 				this.os = new ObjectOutputStream(sServicio.getOutputStream());
 
-
 				PeticionDatos pd = (PeticionDatos) this.is.readObject();
 
+				if (pd.getSubtipo().compareTo("OP_SYNC") == 0) {
+					LOGGER.info("Realizando operación de sincronización.");
+					long t1 = System.currentTimeMillis();
+					System.out.println("Mi tiempo actual es de: " + t1);
+					RespuestaControl rc_sync = new RespuestaControl("OK");
+					rc_sync.getTime().add(t1);
+					this.os.writeObject(rc_sync);
+				}
+
 				if (pd.getSubtipo().compareTo("OP_CPU") == 0) {
+					LOGGER.info("Realizando cálculo de mi CPU.");
 					double sysLoad = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage()
 							+ (new Random().nextDouble());
 					System.out.println("Mi carga de CPU es de: " + sysLoad);
@@ -90,16 +103,13 @@ public class Server2 {
 				}
 
 				if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
-					// CPUs
 					ServerSocket socketIzquierda = new ServerSocket(puertoRecepcionNodoControl);
 					Socket socketRecepcion;
-
 					Socket socketEnvio = new Socket("localhost", puertoEnvioNodoControl);
 					ObjectOutputStream outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
 
 					PeticionDatos p = new PeticionDatos("OP_CPU");
 					outputEnvio.writeObject(p);
-
 					String nodoprocesadoelegido = "";
 
 					socketRecepcion = socketIzquierda.accept();
@@ -119,14 +129,14 @@ public class Server2 {
 						for (int i = 0; i < rc.getCpus().size(); i++) {
 							if (rc.getCpus().get(i) < menor)
 								System.out.println(rc.getCpus().get(i) + " es menor que: " + menor);
-								index = i;
-								menor = rc.getCpus().get(i);
+							index = i;
+							menor = rc.getCpus().get(i);
 						}
 						System.out.println("El de menor carga es: " + rc.getTokens().get(index));
 						nodoprocesadoelegido = rc.getTokens().get(index);
-
-						System.out.println("5");
 						pd.setNodoanillo(nodoprocesadoelegido);
+						LOGGER.info("Enviando petición a nodo: " + pd.getSubtipo() + " - " + pd.getPath() + " -> "
+								+ pd.getNodoanillo());
 						System.out.println("Enviamos petición a ese nodo: " + pd.getSubtipo() + " - " + pd.getPath()
 								+ " -> " + pd.getNodoanillo());
 
@@ -142,7 +152,8 @@ public class Server2 {
 						socketRecepcion = socketIzquierda.accept();
 						inputRecepcion = new ObjectInputStream(socketRecepcion.getInputStream());
 						rc = (RespuestaControl) inputRecepcion.readObject();
-						System.out.println("Resultado de la operación: " + rc.getSubtipo() + " - Ruta final: " + rc.getPath());
+						System.out.println(
+								"Resultado de la operación: " + rc.getSubtipo() + " - Ruta final: " + rc.getPath());
 						this.os.writeObject(rc);
 
 						if (inputRecepcion != null)
@@ -159,8 +170,10 @@ public class Server2 {
 					}
 				}
 			} catch (ClassNotFoundException ex) {
+				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
 			} catch (IOException ex) {
+				LOGGER.error("I/O error while executing thread", ex);
 				ex.printStackTrace();
 			} finally {
 				try {
@@ -168,9 +181,11 @@ public class Server2 {
 					is.close();
 					sServicio.close();
 				} catch (SocketException ex) {
+					LOGGER.error("Socket error while executing thread", ex);
 					System.out.println("Broken pipe! Finishing task...");
 					System.out.println("Ready to use again!");
 				} catch (IOException ex) {
+					LOGGER.error("I/O error while executing thread", ex);
 					ex.printStackTrace();
 				}
 			}

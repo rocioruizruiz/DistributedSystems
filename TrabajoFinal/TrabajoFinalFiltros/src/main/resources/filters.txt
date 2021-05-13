@@ -1,3 +1,0 @@
-GrayScale
-BandW
-Sature
