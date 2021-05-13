@@ -3,7 +3,11 @@ package nodes;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,10 +30,12 @@ import protocol.RespuestaControl;
 
 public class Proxy {
 	ServerSocket proxy;
+	private static String id = "2";
 	private static int proxyPort = 3338;
 	private static int nodocentralPort = 3339;
 	private static String nodocentralIP = "localhost";
 	private static MongoDatabase authdb;
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/nodes.txt";
 
 	private static final Logger LOGGER = LogManager.getLogger(Proxy.class);
 
@@ -38,7 +44,7 @@ public class Proxy {
 			this.init();
 
 			this.proxy = new ServerSocket(proxyPort);
-			System.out.println("Arrancando el servidor proxy...");
+			System.out.println("Arrancando el servidor proxy en el puerto " + proxyPort + "...");
 			System.out.println("Abriendo canal de comunicaciones Proxy...");
 
 			// Proxy Server always running
@@ -69,10 +75,40 @@ public class Proxy {
 	// ---------------------------------------//
 
 	public void init() {
-		authdb = AuthDBConnection.getDB();
+		try {
+			authdb = AuthDBConnection.getDB();
+			File file = new File(NODES);
+			String last = "";
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			last = br.readLine();
+			if (file.exists()) {
+				while (last != null) {
+					String[] address = last.split(";");
+					if(address[0].equals(Proxy.getId())) {
+						proxyPort = Integer.parseInt(address[1]);
+						break;
+					}
+					last = br.readLine();
+				}
+				
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("No se ha encontrado el archivo nodes.txt");
+		} catch (IOException e) {
+			LOGGER.error("Error al cargar el archivo nodes.txt");
+		}
 	}
 
 	// ---------------------------------------//
+
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		Proxy.id = id;
+	}
 
 	private static class ClientHandler extends Thread {
 
@@ -101,25 +137,24 @@ public class Proxy {
 
 		public void procesaCliente(Socket sServicio) throws UnknownHostException, IOException, ClassNotFoundException {
 			try {
-				// proxy actua como cliente ** ante los servidores
+				
 				this.client_is = new ObjectInputStream(clientSocket.getInputStream());
 				this.client_os = new ObjectOutputStream(clientSocket.getOutputStream());
 
-				while (sServicio != null) {
-					Peticion p = (Peticion) this.client_is.readObject();
-					if (p.getTipo().compareTo("PETICION_DATOS") == 0) {
-						PeticionDatos pd = (PeticionDatos) p;
-						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
-							this.doAuthentication(pd);
-						}
+				Peticion p = (Peticion) this.client_is.readObject();
+				if (p.getTipo().compareTo("PETICION_DATOS") == 0) {
+					PeticionDatos pd = (PeticionDatos) p;
+					if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
+						this.doAuthentication(pd);
 					}
 				}
+
 
 			} catch (EOFException ex) {
 				LOGGER.error("? error while executing thread", ex);
 				ex.printStackTrace();
 			} catch (SocketException ex) {
-				LOGGER.error("Soket error while executing thread", ex);
+				LOGGER.error("Socket error while executing thread", ex);
 				ex.printStackTrace();
 			} catch (IOException ex) {
 				LOGGER.error("I/O error while executing thread", ex);
@@ -128,8 +163,6 @@ public class Proxy {
 				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
 			} finally {
-
-				System.out.println("Closing Proxy");
 				if (proxy_os != null)
 					proxy_os.close();
 				if (proxy_is != null)
@@ -172,14 +205,14 @@ public class Proxy {
 
 				// CONTRASEÑA INCORRECTA
 				else if (exists_login != null) {
-					LOGGER.error("Contraseña introducida incorrecta.");
+					LOGGER.warn("Contraseña introducida incorrecta.");
 					System.out.println("Intento de acceso con contraseña incorrecta");
 					RespuestaControl rc = new RespuestaControl("OP_AUTH_BAD_PASSWORD");
 					client_os.writeObject(rc);
 
 					// USUARIO NO EXISTE
 				} else {
-					LOGGER.error("El usuario no existe.");
+					LOGGER.warn("El usuario no existe.");
 					System.out.println("Usuario no existe");
 					RespuestaControl rc = new RespuestaControl("OP_AUTH_NO_USER");
 					client_os.writeObject(rc);
@@ -188,7 +221,7 @@ public class Proxy {
 				LOGGER.error("Broken Pipe!", ex);
 				System.out.println("BrokenPipe! Returning NOT_OK to client");
 				try {
-					this.client_os.writeObject(new RespuestaControl("NOT_OK"));
+					if(this.client_os != null) this.client_os.writeObject(new RespuestaControl("NOT_OK"));
 				} catch (IOException e) {
 					LOGGER.error("I/O error while executing thread", ex);
 					e.printStackTrace();
@@ -199,6 +232,16 @@ public class Proxy {
 			} catch (ClassNotFoundException ex) {
 				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
+			}finally {
+				
+				try {
+					if(this.client_is != null) this.client_is.close();
+					if(this.client_os != null) this.client_os.close();
+					if(this.proxy_is != null) this.proxy_is.close();
+					if(this.proxy_os != null) this.proxy_os.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

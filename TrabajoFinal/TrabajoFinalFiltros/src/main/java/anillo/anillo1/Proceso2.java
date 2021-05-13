@@ -1,5 +1,9 @@
 package anillo.anillo1;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,6 +28,10 @@ public class Proceso2 {
 	private String token = "";
 
 	private static final Logger LOGGER = LogManager.getLogger(Proceso2.class);
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/nodes.txt";
+	private static String id = "11";
+	
+
 
 	public static void main(String[] args) {
 		new Proceso2();
@@ -31,14 +39,17 @@ public class Proceso2 {
 
 	public Proceso2() {
 		this.setToken(UUID.randomUUID().toString());
+		this.init();
 		while (true) {
 			try {
+				
+				System.out.println("Arrancando el proceso 2 del anillo 1 en el puerto " + puertoIzquierda + "...");
 				ServerSocket socketIzquierda = new ServerSocket(puertoIzquierda);
 				Socket sIzquierda;
 				while ((sIzquierda = socketIzquierda.accept()) != null) {
 					// Me acaba de llegar el testigo
 					LOGGER.info(
-							"Proceso 2 de Anillo 1 ha aceptado la conexión " + sIzquierda.getInetAddress().toString());
+							"Proceso 1 de Anillo 1 ha aceptado la conexión " + sIzquierda.getInetAddress().toString());
 					System.out.println("Aceptada conexion de " + sIzquierda.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sIzquierda.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
@@ -94,6 +105,41 @@ public class Proceso2 {
 			}
 		}
 	}
+	public void init() {
+		try {
+			File file = new File(NODES);
+			String last = "";
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			last = br.readLine();
+			if (file.exists()) {
+				while (last != null) {
+					String[] address = last.split(";");
+					if(address[0].equals(Proceso2.getId())) {
+						puertoIzquierda = Integer.parseInt(address[1]);
+					}
+					if(address[0].equals(String.valueOf(Integer.parseInt(Proceso2.getId())+1))) {
+						puertoDerecha = Integer.parseInt(address[1]);
+						System.out.println("puertoDerecha: " + puertoDerecha);
+					}
+					last = br.readLine();
+				}
+				
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("No se ha encontrado el archivo nodes.txt");
+		} catch (IOException e) {
+			LOGGER.error("Error al cargar el archivo nodes.txt");
+		}
+	}
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		Proceso2.id = id;
+	}
+		
 
 	// --------------------------------------------------------------------------
 

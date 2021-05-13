@@ -32,6 +32,7 @@ public class Client {
 	private ArrayList<Long> latencia_app = new ArrayList<Long>();
 	private long average_latencia_red = 0;
 	private long average_latencia_app = 0;
+	private boolean auth = false;
 
 	private static final Logger LOGGER = LogManager.getLogger(Client.class);
 
@@ -55,6 +56,7 @@ public class Client {
 		Scanner sc = new Scanner(System.in);
 		boolean finish = false;
 		String credenciales[] = new String[2];
+		
 		while (!finish) {
 			System.out.println("Inserte el filtro que desea aplicar o inserte 'close' para salir de la aplicación");
 			String filtro = sc.nextLine();
@@ -62,7 +64,7 @@ public class Client {
 				finish = true;
 				continue;
 			}
-			if (s == null) { // si no esta conectado
+			if (s == null || !auth) { // si no esta conectado
 				System.out.println("Indique si tiene cuenta (y/n)");
 				String reg = sc.nextLine();
 				if (reg.contentEquals("y")) {
@@ -83,6 +85,7 @@ public class Client {
 					this.doDisconnect();
 				}
 			} else { // si ya estaba conectado
+				doConnect(ip, PROXY);
 				doFiltering(filtro, credenciales);
 			}
 		}
@@ -177,6 +180,7 @@ public class Client {
 					this.doDisconnect();
 				}
 			} else {
+				auth = true;
 				if (rc.getSubtipo().equals(("NOT_OK"))) {
 					System.out.println("Este filtro ya no esta disponible");
 				} else if (rc.getSubtipo().equals(("OK"))) {
@@ -205,7 +209,7 @@ public class Client {
 						if (rc.getSubtipo().equals("OK"))
 							System.out.println("Path final: " + rc.getPath());
 					} else {
-						LOGGER.error("Ruta de imagen no existe.");
+						LOGGER.warn("Ruta de imagen no existe.");
 						System.out.println("Ruta de imagen no existe.");
 					}
 				}

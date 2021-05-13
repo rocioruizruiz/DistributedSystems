@@ -1,5 +1,9 @@
 package anillo.anillo2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,10 +27,16 @@ public class NodoControl {
 	private static PeticionDatos lastPet = new PeticionDatos();
 
 	private static final Logger LOGGER = LogManager.getLogger(NodoControl.class);
+	private static String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/nodes.txt";
+	private static String id = "8";
+
 
 	public static void main(String[] args) throws IOException {
 		while (true) {
 			try {
+				init();
+				System.out.println("Arrancando el NodoControl en el puerto " + puertoEscuchaServer + "...");
+				System.out.println("Arrancando el NodoControl en el puerto " + puertoEscuchaProceso3 + "...");
 				ServerSocket socketProceso = new ServerSocket(puertoEscuchaServer);
 				Socket sProceso;
 				ServerSocket socketCliente = new ServerSocket(puertoEscuchaProceso3);
@@ -124,5 +134,36 @@ public class NodoControl {
 				ex.printStackTrace();
 			}
 		}
+	}
+	public static void init() {
+		try {
+			File file = new File(NODES);
+			String last = "";
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			last = br.readLine();
+			if (file.exists()) {
+				while (last != null) {
+					String[] address = last.split(";");
+					if(address[0].equals(NodoControl.getId())) {
+						puertoEscuchaServer = Integer.parseInt(address[1]);
+						puertoEscuchaProceso3 = Integer.parseInt(address[2]);
+						break;
+					}
+					last = br.readLine();
+				}
+				
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("No se ha encontrado el archivo nodes.txt");
+		} catch (IOException e) {
+			LOGGER.error("Error al cargar el archivo nodes.txt");
+		}
+	}
+	public static String getId() {
+		return id;
+	}
+	public static void setId(String id) {
+		NodoControl.id = id;
 	}
 }

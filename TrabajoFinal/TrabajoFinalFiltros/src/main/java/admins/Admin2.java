@@ -2,6 +2,10 @@ package admins;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,6 +14,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -24,15 +30,18 @@ public class Admin2 {
 	ServerSocket admin2;
 	private static int admin2Port = 3342;
 	private static MongoDatabase authdb;
+	private static final Logger LOGGER = LogManager.getLogger(Admin2.class);
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/nodes.txt";
+	private static String id = "20";
 
 	public Admin2() {
 		try {
 			this.init();
-
-			this.admin2 = new ServerSocket(admin2Port);
-			System.out.println("Arrancando el admin2 ...");
+			System.out.println("Arrancando el admin2 en el puerto " + admin2Port + " ...");
 			System.out.println("Abriendo canal de comunicaciones admin2 ...");
 
+			this.admin2 = new ServerSocket(admin2Port);
+			
 			// Proxy Server always running
 			while (true) {
 				Socket sServicio = admin2.accept();
@@ -53,6 +62,36 @@ public class Admin2 {
 
 	public void init() {
 		authdb = AuthDBConnection.getDB();
+		try {
+			File file = new File(NODES);
+			String last = "";
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			last = br.readLine();
+			if (file.exists()) {
+				while (last != null) {
+					String[] address = last.split(";");
+					if(address[0].equals(Admin2.getId())) {
+						admin2Port = Integer.parseInt(address[1]);
+						break;
+					}
+					last = br.readLine();
+				}
+				
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("No se ha encontrado el archivo nodes.txt");
+		} catch (IOException e) {
+			LOGGER.error("Error al cargar el archivo nodes.txt");
+		}
+	}
+
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		Admin2.id = id;
 	}
 
 	private static class ClientHandler extends Thread {

@@ -1,5 +1,9 @@
 package multiserver;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,12 +26,14 @@ public class Server3 {
 	private static int puertoRecepcionNodoControl = 5020;
 	private static int puertoEnvioNodoControl = 5021;
 
-	private static final Logger LOGGER = LogManager.getLogger(Server1.class);
-
+	private static final Logger LOGGER = LogManager.getLogger(Server3.class);
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/nodes.txt";
+	private static String id = "6";
+	
 	public Server3() {
 		try {
-			System.out.println("Arrancando el Server 3...");
 			this.init();
+			System.out.println("Arrancando el Server3 en el puerto " + port + "...");
 			System.out.println("Abriendo canal de comunicaciones...");
 			this.s = new ServerSocket(port);
 			while (true) {
@@ -50,7 +56,36 @@ public class Server3 {
 	// --------------------------------------------------------------------------
 
 	public void init() {
+		try {
+			File file = new File(NODES);
+			String last = "";
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			last = br.readLine();
+			if (file.exists()) {
+				while (last != null) {
+					String[] address = last.split(";");
+					if(address[0].equals(Server3.getId())) {
+						port = Integer.parseInt(address[1]);
+						break;
+					}
+					last = br.readLine();
+				}
+				
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("No se ha encontrado el archivo nodes.txt");
+		} catch (IOException e) {
+			LOGGER.error("Error al cargar el archivo nodes.txt");
+		}
+	}
 
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		Server3.id = id;
 	}
 
 	private static class ClientHandler extends Thread {

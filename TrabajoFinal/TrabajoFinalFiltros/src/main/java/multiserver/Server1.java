@@ -1,5 +1,9 @@
 package multiserver;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,6 +16,7 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import nodes.NodoCentral;
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
 
@@ -23,11 +28,13 @@ public class Server1 {
 	private static int puertoEnvioNodoControl = 5001;
 
 	private static final Logger LOGGER = LogManager.getLogger(Server1.class);
-
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalFiltros/src/main/resources/nodes.txt";
+	private static String id = "4";
+	
 	public Server1() {
 		try {
-			System.out.println("Arrancando el Server 1...");
 			this.init();
+			System.out.println("Arrancando el Server 1 en el puerto " + port + "...");
 			System.out.println("Abriendo canal de comunicaciones...");
 			this.s = new ServerSocket(port);
 			while (true) {
@@ -50,7 +57,36 @@ public class Server1 {
 	// --------------------------------------------------------------------------
 
 	public void init() {
+		try {
+			File file = new File(NODES);
+			String last = "";
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			last = br.readLine();
+			if (file.exists()) {
+				while (last != null) {
+					String[] address = last.split(";");
+					if(address[0].equals(Server1.getId())) {
+						port = Integer.parseInt(address[1]);
+						break;
+					}
+					last = br.readLine();
+				}
+				
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("No se ha encontrado el archivo nodes.txt");
+		} catch (IOException e) {
+			LOGGER.error("Error al cargar el archivo nodes.txt");
+		}
+	}
 
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		Server1.id = id;
 	}
 
 	private static class ClientHandler extends Thread {
