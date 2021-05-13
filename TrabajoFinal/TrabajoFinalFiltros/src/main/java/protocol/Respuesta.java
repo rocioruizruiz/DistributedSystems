@@ -1,5 +1,5 @@
 package protocol;
 
-public class Respuesta extends Mensaje{
-    
+public class Respuesta extends Mensaje {
+
 }

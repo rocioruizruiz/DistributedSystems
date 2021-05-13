@@ -6,6 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
 
@@ -13,11 +16,13 @@ public class NodoControl {
 
 	private static int puertoEscuchaServer = 5001;
 	private static int puertoEscuchaProceso3 = 5005;
-	
+
 	private static int puertoEnvioAServer = 5000;
 	private static int puertoEnvioAProceso1 = 5002;
 
 	private static PeticionDatos lastPet = new PeticionDatos();
+
+	private static final Logger LOGGER = LogManager.getLogger(NodoControl.class);
 
 	public static void main(String[] args) throws IOException {
 		while (true) {
@@ -27,8 +32,10 @@ public class NodoControl {
 				ServerSocket socketCliente = new ServerSocket(puertoEscuchaProceso3);
 				Socket sCliente;
 
-				if ((sProceso = socketProceso.accept()) != null) {  //Me llega del server1 y paso peti a proceso 1
+				if ((sProceso = socketProceso.accept()) != null) { // Me llega del server2 y paso peticion a proceso 1
 					// Me acaba de llegar el testigo
+					LOGGER.info(
+							"Nodo control de Anillo 1 ha aceptado la conexión " + sProceso.getInetAddress().toString());
 					System.out.println("Aceptada conexion de " + sProceso.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sProceso.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
@@ -52,8 +59,10 @@ public class NodoControl {
 						socketProceso.close();
 				}
 
-				if ((sCliente = socketCliente.accept()) != null) {		//Me llega del proceso 3 y paso respuesta a server1
+				if ((sCliente = socketCliente.accept()) != null) { // Me llega del proceso 3 y paso respuesta a server2
 					// Me acaba de llegar el testigo
+					LOGGER.info(
+							"Nodo control de Anillo 1 ha aceptado la conexión " + sProceso.getInetAddress().toString());
 					System.out.println("Aceptada conexion de " + sCliente.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sCliente.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
@@ -69,16 +78,13 @@ public class NodoControl {
 							outputDerecha.writeObject(rc);
 						}
 						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
-							if(!pd.getPath().contentEquals("NOT_OK")) {
+							if (!pd.getPath().contentEquals("NOT_OK")) {
 								rc.setPath(pd.getPath());
-								System.out.println("OK" + rc.getPath());
-							}else {
+							} else {
 								rc.setSubtipo("NOT_OK");
 								System.out.println("NOT_OK");
 							}
-							
 							outputDerecha.writeObject(rc);
-							System.out.println("7");
 						}
 						if (outputDerecha != null)
 							outputDerecha.close();
@@ -110,7 +116,11 @@ public class NodoControl {
 							socketCliente.close();
 					}
 				}
-			} catch (IOException | ClassNotFoundException ex) {
+			} catch (IOException ex) {
+				LOGGER.error("I/O error while executing thread", ex);
+				ex.printStackTrace();
+			} catch (ClassNotFoundException ex) {
+				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
 			}
 		}

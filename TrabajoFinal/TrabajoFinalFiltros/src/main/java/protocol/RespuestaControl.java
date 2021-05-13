@@ -7,6 +7,7 @@ public class RespuestaControl extends Respuesta {
 	private ArrayList<String> tokens;
 	private ArrayList<Double> cpus;
 	private String path;
+	private ArrayList<Long> time;
 
 	// --------------------------------------------------------------------------
 
@@ -16,6 +17,7 @@ public class RespuestaControl extends Respuesta {
 		this.cpus = new ArrayList<Double>();
 		this.tokens = new ArrayList<String>();
 		this.path = new String("");
+		this.time = new ArrayList<Long>();
 	}
 
 	// --------------------------------------------------------------------------
@@ -27,18 +29,35 @@ public class RespuestaControl extends Respuesta {
 		this.cpus = new ArrayList<Double>();
 		this.tokens = new ArrayList<String>();
 		this.path = new String("");
+		this.time = new ArrayList<Long>();
 	}
 
 	// --------------------------------------------------------------------------
 
+	public ArrayList<Long> getTime() {
+		return time;
+	}
+	
+	// --------------------------------------------------------------------------
+
+	public void setTime(ArrayList<Long> time) {
+		this.time = time;
+	}
+
+	// --------------------------------------------------------------------------
+	
 	public String getPath() {
 		return path;
 	}
 
+	// --------------------------------------------------------------------------
+	
 	public void setPath(String path) {
 		this.path = path;
 	}
 
+	// --------------------------------------------------------------------------
+	
 	public ArrayList getArgs() {
 		return args;
 	}
@@ -72,5 +91,4 @@ public class RespuestaControl extends Respuesta {
 	public void setCpus(ArrayList<Double> cpus) {
 		this.cpus = cpus;
 	}
-
 }

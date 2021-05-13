@@ -1,6 +1,5 @@
 package protocol;
 
-public class Peticion extends Mensaje{
-    
-}
+public class Peticion extends Mensaje {
 
+}

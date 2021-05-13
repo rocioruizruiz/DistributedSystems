@@ -85,6 +85,7 @@ public class Admin1 {
 				Path delete = Paths.get(path + "/" + filter);
 				deleteFilter(delete);
 			} else if (op.equals("exit")) {
+				sc.close();
 				System.out.println("Saliendo de nodo Admin 1...");
 				System.exit(0);
 			} else {

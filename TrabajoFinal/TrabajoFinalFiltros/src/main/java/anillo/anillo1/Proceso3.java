@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.Random;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 
 import FilterApp.Filter;
@@ -20,6 +22,8 @@ public class Proceso3 {
 	private int puertoIzquierda = 5004;
 	private int puertoDerecha = 5005;
 	private String token = "";
+
+	private static final Logger LOGGER = LogManager.getLogger(Proceso3.class);
 
 	public static void main(String[] args) {
 		new Proceso3();
@@ -33,6 +37,8 @@ public class Proceso3 {
 				Socket sIzquierda;
 				while ((sIzquierda = socketIzquierda.accept()) != null) {
 					// Me acaba de llegar el testigo
+					LOGGER.info(
+							"Proceso 3 de Anillo 1 ha aceptado la conexión " + sIzquierda.getInetAddress().toString());
 					System.out.println("Aceptada conexion de " + sIzquierda.getInetAddress().toString());
 					ObjectInputStream inputIzquierda = new ObjectInputStream(sIzquierda.getInputStream());
 					PeticionDatos pd = (PeticionDatos) inputIzquierda.readObject();
@@ -41,6 +47,7 @@ public class Proceso3 {
 					// Funcionalidad al activar el nodo de la izquierda (recibir comando)
 					boolean done = false;
 					if (mensaje.toString().compareTo("OP_CPU") == 0) {
+						LOGGER.info("Realizando cálculo de mi CPU.");
 						double sysLoad = doCPU();
 						pd.getCpus().add(sysLoad);
 						pd.getTokens().add(this.token);
@@ -48,12 +55,14 @@ public class Proceso3 {
 						done = true;
 					}
 					if (mensaje.toString().compareTo("OP_FILTRO") == 0) {
+						LOGGER.info("Realizando operación de filtrado.");
 						System.out.println("My token: " + this.token);
 						if (pd.getNodoanillo().equals(this.token)) {
 							String resultPath = doFiltro(pd.getFiltro(), pd.getPath());
 							pd.setPath(resultPath);
 							done = true;
 						} else {
+							LOGGER.info("Operación de filtrado no enviado a mi.");
 							System.out.println("OP not sent to my token");
 							done = true;
 						}
@@ -80,6 +89,7 @@ public class Proceso3 {
 				}
 			} catch (IOException ex) {
 			} catch (ClassNotFoundException ex) {
+				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
 			}
 		}
@@ -111,13 +121,13 @@ public class Proceso3 {
 			System.out.println("Obtained a handle on server object: " + filterImpl);
 			resultPath = filterImpl.applyFilter(filter, path);
 			System.out.println("Result path: " + resultPath);
-			return resultPath;
+
 		} catch (Exception e) {
+			LOGGER.error("Error while executing thread", e);
 			System.out.println("ERROR : " + e);
 			e.printStackTrace(System.out);
-			return "NOT_OK";
 		}
-		
+		return resultPath;
 	}
 
 	public String getToken() {

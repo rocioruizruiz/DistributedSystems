@@ -10,6 +10,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import protocol.PeticionControl;
 import protocol.PeticionDatos;
 import protocol.RespuestaControl;
@@ -29,6 +32,8 @@ public class Client {
 	private ArrayList<Long> latencia_app = new ArrayList<Long>();
 	private long average_latencia_red = 0;
 	private long average_latencia_app = 0;
+
+	private static final Logger LOGGER = LogManager.getLogger(Client.class);
 
 	// --------------------------------------------------------------------------
 
@@ -61,17 +66,17 @@ public class Client {
 				System.out.println("Indique si tiene cuenta (y/n)");
 				String reg = sc.nextLine();
 				if (reg.contentEquals("y")) {
-					System.out.print("Inserte su nombre de usuario:\nCliente 1.0 >");
+					System.out.print("Inserte su nombre de usuario:\nCliente 1.0 > ");
 					credenciales[0] = sc.nextLine();
-					System.out.print("Inserte su password:\nCliente 1.0 >");
+					System.out.print("Inserte su password:\nCliente 1.0 > ");
 					credenciales[1] = sc.nextLine();
 					doConnect(ip, PROXY);
 					doFiltering(filtro, credenciales);
 
 				} else {
-					System.out.print("Inserte nombre de usuario:\nCliente 1.0 >");
+					System.out.print("Inserte nombre de usuario:\nCliente 1.0 > ");
 					credenciales[0] = sc.nextLine();
-					System.out.print("Inserte password:\nCliente 1.0 >");
+					System.out.print("Inserte password:\nCliente 1.0 > ");
 					credenciales[1] = sc.nextLine();
 					this.doConnect(ipAdmin2, portAdmin2);
 					doRegister(credenciales);
@@ -92,21 +97,24 @@ public class Client {
 
 	private void doConnect(String ip, int port) {
 		try {
-			// if(this.s == null){
+			LOGGER.info("Usuario conectado correctamente.");
 			// Creamos el socket
 			this.s = new Socket(ip, port);
 			// Asociamos los objetos al socket
 			this.os = new ObjectOutputStream(s.getOutputStream());
 			this.is = new ObjectInputStream(s.getInputStream());
-			// }
 		} catch (UnknownHostException ex) {
+			LOGGER.error("Unknown Host error while executing thread", ex);
 			ex.printStackTrace();
 		} catch (EOFException ex) {
+			LOGGER.error("Server(proxy) error while executing thread", ex);
 			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!");
 		} catch (IOException ex) {
+			LOGGER.error("I/O error while executing thread", ex);
 			ex.printStackTrace();
 		}
 	}
+
 	// --------------------------------------------------------------------------
 
 	private void doDisconnect() {
@@ -120,15 +128,17 @@ public class Client {
 				this.s.close();
 				this.s = null;
 			} catch (IOException ex) {
+				LOGGER.error("I/O error while executing thread", ex);
 				ex.printStackTrace();
 			}
 		} else {
+			LOGGER.error("Usuario ya desconectado.");
 			System.out.println("Ya estabas desconectado");
 		}
 	}
 
 	// --------------------------------------------------------------------------
-	// CREAR: doFiltering
+
 	private void doFiltering(String filtro, String[] credenciales) {
 		try {
 			// Creamos una peticion de control
@@ -151,11 +161,10 @@ public class Client {
 			RespuestaControl rc = (RespuestaControl) this.is.readObject();
 
 			System.out.println(rc.getSubtipo());
-			if (rc.getSubtipo().equals("OP_AUTH_BAD_PASSWORD"))
+			if (rc.getSubtipo().equals("OP_AUTH_BAD_PASSWORD")) {
+				LOGGER.error("Contraseña incorrecta.");
 				System.out.println("Contraseña incorrecta, inténtelo de nuevo!");
-
-			else if (rc.getSubtipo().equals("OP_AUTH_NO_USER")) {
-
+			} else if (rc.getSubtipo().equals("OP_AUTH_NO_USER")) {
 				System.out.println("Este usuario no existe, desea registrarse con esas credenciales? (y/n)");
 				String registrarse = sc.nextLine();
 				if (registrarse.equals("y")) {
@@ -168,22 +177,20 @@ public class Client {
 					this.doDisconnect();
 				}
 			} else {
-
 				if (rc.getSubtipo().equals(("NOT_OK"))) {
 					System.out.println("Este filtro ya no esta disponible");
-					
 				} else if (rc.getSubtipo().equals(("OK"))) {
-
 					PeticionDatos pd2 = new PeticionDatos("OP_FILTRO");
 					pd2.getArgs().add(credenciales[0]);
 					pd.getArgs().add(credenciales[1]);
 
 					pd2.setFiltro(filtro);
 
+					LOGGER.info("Filtro disponible!");
 					System.out.println("Filtro disponible! Indique la ruta de la imagen a editar: ");
 					String path = sc.nextLine();
 					File file = new File(path);
-					if(file.exists()) {
+					if (file.exists()) {
 						pd2.setPath(path);
 						System.out.println(pd2.getPath());
 						this.os.writeObject(pd2);
@@ -194,20 +201,24 @@ public class Client {
 						averageAppLatency();
 						System.out.println("-------------------");
 						System.out.println("Resultado de la solucitud: " + rc.getSubtipo());
-						if(rc.getSubtipo().equals("OK")) System.out.println("Path final: " + rc.getPath());
-					}else {
-						System.out.println("Ruta incorrecta");
+						LOGGER.info("Filtro correctamente aplicado");
+						if (rc.getSubtipo().equals("OK"))
+							System.out.println("Path final: " + rc.getPath());
+					} else {
+						LOGGER.error("Ruta de imagen no existe.");
+						System.out.println("Ruta de imagen no existe.");
 					}
-					
-					
 				}
 			}
 
 		} catch (ClassNotFoundException ex) {
+			LOGGER.error("Class not found error while executing thread", ex);
 			ex.printStackTrace();
 		} catch (EOFException ex) {
+			LOGGER.error("Server(proxy) error while executing thread", ex);
 			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!!!");
 		} catch (IOException ex) {
+			LOGGER.error("I/O error while executing thread", ex);
 			ex.printStackTrace();
 		}
 	}
@@ -239,10 +250,13 @@ public class Client {
 				System.out.println("El usuario ya existe, elija otro nombre");
 			}
 		} catch (ClassNotFoundException ex) {
+			LOGGER.error("Class not found error while executing thread", ex);
 			ex.printStackTrace();
 		} catch (EOFException ex) {
+			LOGGER.error("Server(proxy) error while executing thread", ex);
 			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!!!");
 		} catch (IOException ex) {
+			LOGGER.error("I/O error while executing thread", ex);
 			ex.printStackTrace();
 		}
 	}
