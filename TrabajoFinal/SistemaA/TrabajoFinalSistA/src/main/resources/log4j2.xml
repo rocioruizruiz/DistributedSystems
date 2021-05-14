@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <File name="File" fileName="/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/log.txt" append="true">
+            <PatternLayout>
+                 <Pattern>%d{HH:mm:ss.SSS} %-5level: [%C{1} at method: %M] - %msg%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.logger" level="info" additivity="true">
+            <AppenderRef ref="File"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,3 @@
+Sature;5000;5001
+BandW;5010;5011
+GrayScale;5020;5021

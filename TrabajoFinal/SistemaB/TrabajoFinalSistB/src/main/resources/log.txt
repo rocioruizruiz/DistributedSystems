@@ -1,0 +1,537 @@
+01:44:07.006 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+01:44:07.034 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+01:44:08.266 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+01:44:08.282 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+01:44:08.343 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+01:44:08.351 INFO : [Client at method: doFiltering] - Filtro disponible!
+01:44:13.682 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+01:44:13.707 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:44:14.713 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:44:14.715 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+01:44:14.716 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:44:14.725 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:44:14.748 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:44:15.739 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:44:15.740 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:44:15.745 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:44:15.767 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:44:15.807 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:44:16.789 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:44:16.790 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:44:16.795 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:44:16.802 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:44:16.802 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+01:44:16.804 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+01:44:16.832 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.868 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.880 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+01:44:16.887 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.902 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+01:44:16.910 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.926 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+01:44:16.929 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.937 INFO : [Server3$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 9cad3d0c-dd60-4cab-bb0c-fd01466c68d4
+01:44:16.938 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.940 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.942 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+01:44:16.943 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+01:44:16.943 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.945 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+01:44:16.945 INFO : [Proceso2 at method: <init>] - Operación de filtrado no enviado a mi.
+01:44:16.945 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:16.947 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+01:44:17.086 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:17.090 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+01:44:41.248 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+01:44:41.249 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+01:44:41.682 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+01:44:41.684 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+01:44:41.694 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+01:44:41.701 INFO : [Client at method: doFiltering] - Filtro disponible!
+01:44:45.442 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+01:44:45.447 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:44:46.446 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:44:46.447 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+01:44:46.451 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:44:46.454 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:44:46.457 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:44:47.458 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:44:47.459 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:44:47.465 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:44:47.469 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:44:47.473 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:44:48.474 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:44:48.476 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:44:48.480 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:44:48.484 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+01:44:48.484 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:44:48.486 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+01:44:48.516 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+01:44:48.555 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:48.568 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+01:44:48.575 INFO : [Proceso2 at method: <init>] - Proceso 2 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:48.593 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+01:44:48.601 INFO : [Proceso3 at method: <init>] - Proceso 3 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:48.620 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+01:44:48.623 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+01:44:48.630 INFO : [Server2$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> d7575ed1-fdf3-4b62-b99b-adb04e6ffb88
+01:44:48.631 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+01:44:48.633 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:48.635 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+01:44:48.635 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+01:44:48.636 INFO : [Proceso2 at method: <init>] - Proceso 2 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:48.637 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+01:44:48.772 INFO : [Proceso3 at method: <init>] - Proceso 3 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:44:48.774 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+01:44:48.774 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+01:44:48.775 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+01:44:48.779 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+01:45:14.196 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+01:45:14.197 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+01:45:14.440 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+01:45:14.442 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+01:45:14.450 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+01:45:14.453 INFO : [Client at method: doFiltering] - Filtro disponible!
+01:45:21.288 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+01:45:21.291 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:45:22.291 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:45:22.292 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+01:45:22.295 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:45:22.298 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:45:22.300 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:45:23.301 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:45:23.302 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:45:23.304 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:45:23.307 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:45:23.309 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+01:45:24.311 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+01:45:24.313 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+01:45:24.318 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+01:45:24.323 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+01:45:24.323 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+01:45:24.325 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+01:45:24.341 INFO : [NodoControl at method: main] - Nodo control de Anillo 3 ha aceptado la conexión /127.0.0.1
+01:45:24.371 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:45:24.384 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+01:45:24.391 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:45:24.406 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+01:45:24.413 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:45:24.428 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+01:45:24.430 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+01:45:24.438 INFO : [Server2$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> b7803b22-a84f-4f5d-b33c-b27d30bb42a4
+01:45:24.438 INFO : [NodoControl at method: main] - Nodo control de Anillo 3 ha aceptado la conexión /127.0.0.1
+01:45:24.441 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:45:24.442 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+01:45:24.443 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+01:45:24.443 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:45:24.445 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+01:45:24.590 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+01:45:24.594 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+01:45:24.594 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+01:45:24.595 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+01:45:24.599 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+01:58:10.361 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+01:58:10.375 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+01:58:11.610 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+01:58:11.627 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+01:58:11.674 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+01:58:11.682 INFO : [Client at method: doFiltering] - Filtro disponible!
+01:58:22.618 ERROR: [NodoCentral$ClientHandler at method: doFiltering] - I/O error while executing thread
+java.io.IOException: Stream closed
+	at java.io.BufferedReader.ensureOpen(BufferedReader.java:122) ~[?:1.8.0_292]
+	at java.io.BufferedReader.readLine(BufferedReader.java:317) ~[?:1.8.0_292]
+	at java.io.BufferedReader.readLine(BufferedReader.java:389) ~[?:1.8.0_292]
+	at nodes.NodoCentral$ClientHandler.doFiltering(NodoCentral.java:198) [classes/:?]
+	at nodes.NodoCentral$ClientHandler.procesaCliente(NodoCentral.java:130) [classes/:?]
+	at nodes.NodoCentral$ClientHandler.run(NodoCentral.java:112) [classes/:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_292]
+01:58:22.630 ERROR: [Proxy$ClientHandler at method: doAuthentication] - Broken Pipe!
+java.io.EOFException: null
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3078) ~[?:1.8.0_292]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1618) ~[?:1.8.0_292]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:503) ~[?:1.8.0_292]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:461) ~[?:1.8.0_292]
+	at nodes.Proxy$ClientHandler.doAuthentication(Proxy.java:201) [classes/:?]
+	at nodes.Proxy$ClientHandler.procesaCliente(Proxy.java:148) [classes/:?]
+	at nodes.Proxy$ClientHandler.run(Proxy.java:128) [classes/:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_292]
+01:58:22.638 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+01:59:46.332 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+01:59:46.389 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+01:59:47.621 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+01:59:47.638 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+01:59:47.690 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+01:59:47.700 INFO : [Client at method: doFiltering] - Filtro disponible!
+01:59:53.905 ERROR: [Proxy$ClientHandler at method: doAuthentication] - Broken Pipe!
+java.io.EOFException: null
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3078) ~[?:1.8.0_292]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1618) ~[?:1.8.0_292]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:503) ~[?:1.8.0_292]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:461) ~[?:1.8.0_292]
+	at nodes.Proxy$ClientHandler.doAuthentication(Proxy.java:201) [classes/:?]
+	at nodes.Proxy$ClientHandler.procesaCliente(Proxy.java:148) [classes/:?]
+	at nodes.Proxy$ClientHandler.run(Proxy.java:128) [classes/:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_292]
+01:59:53.914 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+02:05:40.925 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:05:40.976 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:05:42.580 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:05:42.591 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:05:42.638 WARN : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado no existe.
+02:11:49.896 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:11:49.921 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:11:51.108 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:11:51.125 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:11:51.173 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+02:11:51.180 INFO : [Client at method: doFiltering] - Filtro disponible!
+02:12:06.209 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:12:06.245 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:12:07.261 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:12:07.262 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:12:07.265 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:12:07.274 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:12:07.297 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:12:08.287 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:12:08.289 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:12:08.293 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:12:08.315 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:12:08.349 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:12:09.333 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:12:09.334 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:12:09.339 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:12:09.346 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+02:12:09.346 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:12:09.348 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+02:12:09.375 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+02:12:09.412 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:09.424 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+02:12:09.430 INFO : [Proceso2 at method: <init>] - Proceso 2 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:09.445 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+02:12:09.454 INFO : [Proceso3 at method: <init>] - Proceso 3 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:09.473 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+02:12:09.476 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+02:12:09.483 INFO : [Server1$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 57733102-167b-4c4b-aec6-93b3510d48d4
+02:12:09.484 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+02:12:09.485 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:09.488 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+02:12:09.488 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+02:12:09.488 INFO : [Proceso2 at method: <init>] - Proceso 2 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:09.491 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+02:12:09.491 INFO : [Proceso2 at method: <init>] - Operación de filtrado no enviado a mi.
+02:12:09.491 INFO : [Proceso3 at method: <init>] - Proceso 3 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:09.493 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+02:12:09.631 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+02:12:09.636 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+02:12:17.384 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:12:17.385 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:12:17.710 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:12:17.712 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:12:17.717 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+02:12:17.723 INFO : [Client at method: doFiltering] - Filtro disponible!
+02:12:20.688 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:12:20.689 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:12:21.691 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:12:21.692 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:12:21.694 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:12:21.698 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:12:21.701 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:12:22.701 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:12:22.702 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:12:22.706 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:12:22.710 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:12:22.714 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:12:23.714 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:12:23.715 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:12:23.719 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:12:23.722 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+02:12:23.722 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:12:23.724 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+02:12:23.741 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.778 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.792 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+02:12:23.798 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.813 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+02:12:23.819 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.837 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+02:12:23.840 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.848 INFO : [Server3$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 9fed0f37-7fed-4095-bb5a-083bdeb67f79
+02:12:23.854 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.856 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:23.862 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+02:12:24.025 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:24.027 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+02:12:24.027 INFO : [Proceso2 at method: <init>] - Operación de filtrado no enviado a mi.
+02:12:24.027 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:24.029 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+02:12:24.029 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+02:12:24.030 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:12:24.034 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+02:13:00.223 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:13:00.224 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:13:00.446 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:13:00.447 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:13:00.449 WARN : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado no existe.
+02:13:11.695 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:13:11.696 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:13:11.924 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:13:11.924 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:13:11.926 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+02:13:11.928 INFO : [Client at method: doFiltering] - Filtro disponible!
+02:13:15.211 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:13:15.212 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:13:16.213 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:13:16.214 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:13:16.216 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:13:16.218 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:13:16.219 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:13:17.219 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:13:17.220 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:13:17.221 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:13:17.223 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:13:17.224 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:13:18.225 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:13:18.226 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:13:18.227 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:13:18.230 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+02:13:18.230 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:13:18.230 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+02:13:18.241 INFO : [NodoControl at method: main] - Nodo control de Anillo 3 ha aceptado la conexión /127.0.0.1
+02:13:18.270 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:13:18.283 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+02:13:18.291 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:13:18.305 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+02:13:18.312 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:13:18.327 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+02:13:18.331 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+02:13:18.339 INFO : [Server1$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> a3100cf4-fd3f-486e-8b2a-19817ea46bdc
+02:13:18.339 INFO : [NodoControl at method: main] - Nodo control de Anillo 3 ha aceptado la conexión /127.0.0.1
+02:13:18.341 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:13:18.343 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+02:13:18.343 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+02:13:18.343 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:13:18.345 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+02:13:18.468 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:13:18.470 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+02:13:18.470 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+02:13:18.471 INFO : [NodoControl at method: main] - Nodo control de Anillo 2 ha aceptado la conexión /127.0.0.1
+02:13:18.474 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+02:42:00.000 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:42:00.024 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:42:01.814 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:42:01.822 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:42:01.860 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+02:42:01.867 INFO : [Client at method: doFiltering] - Filtro disponible!
+02:42:08.561 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:42:08.605 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:42:09.596 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:42:09.598 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:42:09.599 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:42:09.607 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:42:09.630 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:42:10.620 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:42:10.621 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:42:10.626 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:42:10.647 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:42:10.681 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:42:11.665 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:42:11.667 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:42:11.672 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:42:11.679 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+02:42:11.679 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:42:11.681 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+02:42:11.708 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.739 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.753 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+02:42:11.760 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.773 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+02:42:11.779 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.794 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+02:42:11.796 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.803 INFO : [Server2$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 8f33a2ec-81c9-4ca1-883d-48bbf67c5a0f
+02:42:11.803 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.805 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.807 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+02:42:11.807 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+02:42:11.808 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.810 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+02:42:11.946 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.947 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+02:42:11.947 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+02:42:11.948 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:42:11.952 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+02:57:15.122 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+02:57:15.182 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+02:57:16.345 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+02:57:16.357 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+02:57:16.392 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+02:57:16.400 INFO : [Client at method: doFiltering] - Filtro disponible!
+02:57:34.596 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:57:34.620 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:57:35.637 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:57:35.639 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+02:57:35.641 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:57:35.651 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:57:35.673 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:57:36.663 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:57:36.665 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:57:36.669 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:57:36.691 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:57:36.726 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+02:57:37.710 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+02:57:37.712 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+02:57:37.716 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+02:57:37.724 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+02:57:37.724 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+02:57:37.726 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+02:57:37.757 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.798 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.810 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+02:57:37.817 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.831 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+02:57:37.839 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.854 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+02:57:37.857 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.865 INFO : [Server2$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> ea331fd1-c79a-446c-81e5-7a2a5e3578e8
+02:57:37.865 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.867 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.870 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+02:57:37.870 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+02:57:37.870 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.872 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+02:57:37.872 INFO : [Proceso2 at method: <init>] - Operación de filtrado no enviado a mi.
+02:57:37.873 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:37.874 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+02:57:38.005 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+02:57:38.012 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+03:01:20.055 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+03:01:20.083 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+03:01:21.276 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+03:01:21.293 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+03:01:21.340 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+03:01:21.348 INFO : [Client at method: doFiltering] - Filtro disponible!
+03:01:32.013 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+03:01:32.056 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:01:33.068 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:01:33.072 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+03:01:33.076 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:01:33.091 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+03:01:33.123 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:01:34.107 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:01:34.109 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+03:01:34.115 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:01:34.139 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:01:34.174 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:01:35.159 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:01:35.160 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:01:35.165 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:01:35.173 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:01:35.173 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+03:01:35.175 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+03:01:35.207 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.245 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.257 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+03:01:35.263 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.279 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+03:01:35.285 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.301 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+03:01:35.304 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.311 INFO : [Server3$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 737e768b-612d-48d5-9691-aefc94c6a060
+03:01:35.313 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.315 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.317 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+03:01:35.317 INFO : [Proceso1 at method: <init>] - Operación de filtrado no enviado a mi.
+03:01:35.318 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.320 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+03:01:35.447 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.449 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+03:01:35.449 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+03:01:35.450 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:01:35.454 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+03:03:42.757 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+03:03:42.813 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+03:03:44.043 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+03:03:44.051 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+03:03:44.088 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+03:03:44.095 INFO : [Client at method: doFiltering] - Filtro disponible!
+03:03:47.245 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+03:03:47.289 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:03:48.294 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:03:48.296 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+03:03:48.298 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:03:48.308 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+03:03:48.337 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:03:49.324 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:03:49.325 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+03:03:49.330 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:03:49.351 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:03:49.387 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:03:50.368 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:03:50.368 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:03:50.369 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:03:50.371 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+03:03:50.371 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:03:50.372 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+03:03:50.379 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.403 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.415 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+03:03:50.421 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.436 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+03:03:50.443 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.457 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+03:03:50.460 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.466 INFO : [Server3$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 29402100-d579-4e35-a0d0-95f43769b563
+03:03:50.467 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.469 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.471 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+03:03:50.596 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.598 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+03:03:50.598 INFO : [Proceso2 at method: <init>] - Operación de filtrado no enviado a mi.
+03:03:50.599 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.600 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+03:03:50.601 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+03:03:50.601 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:03:50.606 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
+03:06:03.621 INFO : [Client at method: doConnect] - Usuario conectado correctamente.
+03:06:03.645 INFO : [Proxy at method: <init>] - Proxy ha aceptado la conexión /127.0.0.1
+03:06:04.772 INFO : [Proxy$ClientHandler at method: doAuthentication] - Autentificación de usuario correcta.
+03:06:04.781 INFO : [NodoCentral at method: <init>] - Nodo central ha aceptado la conexión /127.0.0.1
+03:06:04.817 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El filtro solicitado existe.
+03:06:04.826 INFO : [Client at method: doFiltering] - Filtro disponible!
+03:06:10.534 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+03:06:10.558 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:06:11.573 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:06:11.575 INFO : [Server1 at method: <init>] - Server 1 ha aceptado la conexión /127.0.0.1
+03:06:11.577 INFO : [Server1$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:06:11.587 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+03:06:11.612 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:06:12.600 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:06:12.601 INFO : [Server2 at method: <init>] - Server 2 ha aceptado la conexión /127.0.0.1
+03:06:12.606 INFO : [Server2$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:06:12.627 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:06:12.682 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando operación de sincronización.
+03:06:13.656 INFO : [NodoCentral$ClientHandler at method: doFiltering] - El reloj ha sido sincronizado.
+03:06:13.657 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:06:13.662 INFO : [Server3$ClientHandler at method: procesaCliente] - Realizando cálculo de mi CPU.
+03:06:13.670 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: lock
+03:06:13.670 INFO : [Server3 at method: <init>] - Server 3 ha aceptado la conexión /127.0.0.1
+03:06:13.673 INFO : [NodoCentral$ClientHandler at method: doFiltering] - Exclusión mutua: unlock
+03:06:13.699 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.736 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.748 INFO : [Proceso1 at method: <init>] - Realizando cálculo de mi CPU.
+03:06:13.756 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.771 INFO : [Proceso2 at method: <init>] - Realizando cálculo de mi CPU.
+03:06:13.777 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.793 INFO : [Proceso3 at method: <init>] - Realizando cálculo de mi CPU.
+03:06:13.796 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.805 INFO : [Server3$ClientHandler at method: procesaCliente] - Enviando petición a nodo: OP_FILTRO - /home/agus/Documents/lapiz.jpg -> 16829f7b-4b96-4c9c-9c8e-b34fa710086a
+03:06:13.806 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.809 INFO : [Proceso1 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.812 INFO : [Proceso1 at method: <init>] - Realizando operación de filtrado.
+03:06:13.950 INFO : [Proceso2 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.952 INFO : [Proceso2 at method: <init>] - Realizando operación de filtrado.
+03:06:13.952 INFO : [Proceso2 at method: <init>] - Operación de filtrado no enviado a mi.
+03:06:13.952 INFO : [Proceso3 at method: <init>] - Proceso 1 de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.954 INFO : [Proceso3 at method: <init>] - Realizando operación de filtrado.
+03:06:13.955 INFO : [Proceso3 at method: <init>] - Operación de filtrado no enviado a mi.
+03:06:13.955 INFO : [NodoControl at method: main] - Nodo control de Anillo 1 ha aceptado la conexión /127.0.0.1
+03:06:13.959 INFO : [Client at method: doFiltering] - Filtro correctamente aplicado
