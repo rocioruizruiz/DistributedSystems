@@ -28,7 +28,7 @@ public class Proceso3 {
 	private String token = "";
 
 	private static final Logger LOGGER = LogManager.getLogger(Proceso3.class);
-	private String NODES = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
 	private static String id = "15";
 
 	public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class Proceso3 {
 				System.out.println("Arrancando el proceso 3 del anillo 2 en el puerto " + puertoIzquierda + "...");
 				ServerSocket socketIzquierda = new ServerSocket(puertoIzquierda);
 				Socket sIzquierda;
-				while ((sIzquierda = socketIzquierda.accept()) != null) {
+				if ((sIzquierda = socketIzquierda.accept()) != null) {
 					// Me acaba de llegar el testigo
 					LOGGER.info(
 							"Proceso 3 de Anillo 2 ha aceptado la conexión " + sIzquierda.getInetAddress().toString());
@@ -97,6 +97,7 @@ public class Proceso3 {
 					}
 				}
 			} catch (IOException ex) {
+				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();

@@ -27,20 +27,21 @@ public class NodoControl {
 	private static PeticionDatos lastPet = new PeticionDatos();
 
 	private static final Logger LOGGER = LogManager.getLogger(NodoControl.class);
-	private static String NODES = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
+	private static String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
 	private static String id = "8";
 
 	public static void main(String[] args) throws IOException {
 		while (true) {
 			try {
 				init();
-				System.out.println("Arrancando el NodoControl en el puerto " + puertoEscuchaServer + "...");
-				System.out.println("Arrancando el NodoControl en el puerto " + puertoEscuchaProceso3 + "...");
+				
 				ServerSocket socketProceso = new ServerSocket(puertoEscuchaServer);
 				Socket sProceso;
 				ServerSocket socketCliente = new ServerSocket(puertoEscuchaProceso3);
 				Socket sCliente;
 
+				System.out.println("Arrancando el NodoControl en el puerto " + puertoEscuchaServer + "...");
+				System.out.println("Arrancando el NodoControl en el puerto " + puertoEscuchaProceso3 + "...");
 				if ((sProceso = socketProceso.accept()) != null) { // Me llega del server2 y paso peticion a proceso 1
 					// Me acaba de llegar el testigo
 					LOGGER.info(
@@ -81,6 +82,9 @@ public class NodoControl {
 						ObjectOutputStream outputDerecha = new ObjectOutputStream(socketDerecha.getOutputStream());
 						RespuestaControl rc = new RespuestaControl("OK");
 						if (pd.getSubtipo().compareTo("OP_CPU") == 0) {
+							for(int i = 0; i < pd.getCpus().size(); i++) {
+								System.out.println(" > Nodo de token: " + pd.getTokens().get(i) + " - CPU: " + pd.getCpus().get(i));
+							}
 							rc.setCpus(pd.getCpus());
 							rc.setTokens(pd.getTokens());
 							System.out.println("OK");
@@ -88,6 +92,8 @@ public class NodoControl {
 						}
 						if (pd.getSubtipo().compareTo("OP_FILTRO") == 0) {
 							if (!pd.getPath().contentEquals("NOT_OK")) {
+								System.out.println("Ruta final: " +  pd.getPath());
+								System.out.println("OK");
 								rc.setPath(pd.getPath());
 							} else {
 								rc.setSubtipo("NOT_OK");
@@ -130,6 +136,8 @@ public class NodoControl {
 				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				LOGGER.error("Class not found error while executing thread", ex);
+				ex.printStackTrace();
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}

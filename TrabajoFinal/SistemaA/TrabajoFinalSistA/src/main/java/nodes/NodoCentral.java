@@ -8,9 +8,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +29,7 @@ import protocol.RespuestaControl;
 public class NodoCentral {
 
 	private static final Logger LOGGER = LogManager.getLogger(NodoCentral.class);
-	private String NODES = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
 	ServerSocket s;
 	int port = 3339;
 	private static String id = "3";
@@ -97,8 +99,8 @@ public class NodoCentral {
 		private ObjectInputStream is;
 		private ObjectOutputStream os;
 
-		private String PATHFILTERS = "/mnt/clientPythonFilter/"; 
-		private String PATHSERVERS = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/multiservers.txt"; 																												// NodoCentral
+		private String PATHFILTERS = "/Volumes/pythonFilters/"; 
+		private String PATHSERVERS = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/multiservers.txt"; 																												// NodoCentral
 		private Lock lock = new ReentrantLock();
 
 		// Constructor
@@ -212,7 +214,7 @@ public class NodoCentral {
 							pd.getTime().add(t);
 							// recibo respuestas
 							RespuestaControl rc_sync = (RespuestaControl) is_sync.readObject();
-							System.out.println("Tiempo actual: " + rc_sync.getTime().get(0));
+//							System.out.println("Tiempo actual: " + rc_sync.getTime().get(0));
 							Long suma = (long) 0;
 							for (int i = 0; i < rc_sync.getTime().size(); i++) {
 								suma = rc_sync.getTime().get(i);
@@ -223,8 +225,7 @@ public class NodoCentral {
 							Date relojHoras = new Date(correction);
 							DateFormat hourFormat = new SimpleDateFormat("dd/MM/yy-HH:mm:ss");
 							LOGGER.info("El reloj ha sido sincronizado.");
-							System.out.println(
-									"El reloj se ha sincronizado y la hora es " + hourFormat.format(relojHoras));
+//							System.out.println("El reloj se ha sincronizado y la hora es " + hourFormat.format(relojHoras));
 
 							// CPU
 							System.out.println("Enviando petición de CPU a server: " + address[0] + " - " + address[1]);
@@ -234,7 +235,7 @@ public class NodoCentral {
 							ObjectInputStream is_cpu = new ObjectInputStream(socketCPU.getInputStream());
 							// recibo respuestas
 							RespuestaControl rc_CPUS = (RespuestaControl) is_cpu.readObject();
-							System.out.println("CPU: " + rc_CPUS.getCpus().get(0));
+							System.out.println(" >CPU: " + rc_CPUS.getCpus().get(0));
 							if (rc_CPUS.getCpus().size() > 0 && rc_CPUS.getCpus().get(0) < menor) {
 								// elijo el menor
 								ipElegido = address[1];
@@ -268,10 +269,53 @@ public class NodoCentral {
 				LOGGER.error("File not found error while executing thread", ex);
 				ex.printStackTrace();
 
-			} catch (EOFException ex) {
+			} catch (ConnectException ex) {
 
 				LOGGER.error("? error while executing thread", ex);
-				ex.printStackTrace();
+				//ex.printStackTrace();
+				System.out.println("Server ERROR. Redirecting to server 3341 - 192.168.1.84");
+				try {
+					socketEnvio = new Socket("localhost", 3341);
+					ObjectOutputStream outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
+	
+					this.lock.lock();
+					LOGGER.info("Exclusión mutua: lock");
+					outputEnvio.writeObject(pd);
+					this.lock.unlock();
+					LOGGER.info("Exclusión mutua: unlock");
+					ObjectInputStream inputEnvio = new ObjectInputStream(socketEnvio.getInputStream());
+					RespuestaControl rc = (RespuestaControl) inputEnvio.readObject();
+					System.out.println("Resultado de operación: " + rc.getSubtipo() + " - Ruta final: " + rc.getPath());
+					this.os.writeObject(rc);
+				}catch(EOFException e) {
+					
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			} catch (EOFException ex) {
+				LOGGER.error("EOF error while executing thread", ex);
+				System.out.println("Se ha producido un error de conexión");
+				if (socketEnvio != null) {
+					try {
+						socketEnvio.close();
+						if (this.is != null)
+							this.is.close();
+						if (this.os != null)
+							this.os.close();
+					} catch (IOException e) {
+						LOGGER.error("I/O error while executing thread", ex);
+						e.printStackTrace();
+					}
+				}
+				
 			} catch (SocketException ex) {
 
 				LOGGER.error("Socket error while executing thread", ex);

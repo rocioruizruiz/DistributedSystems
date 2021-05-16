@@ -63,7 +63,7 @@ public class Admin1 {
 			Scanner sc = new Scanner(System.in);
 			String op = sc.next();
 
-			File path = new File("/mnt/clientPythonFilter/"); // Carpeta Samba
+			File path = new File("/Volumes/pythonFilters/"); // Carpeta Samba
 
 			if (op.equals("list")) {
 				listPath(path);

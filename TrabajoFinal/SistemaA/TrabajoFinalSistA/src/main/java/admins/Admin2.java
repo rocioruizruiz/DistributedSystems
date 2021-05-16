@@ -31,7 +31,7 @@ public class Admin2 {
 	private static int admin2Port = 3342;
 	private static MongoDatabase authdb;
 	private static final Logger LOGGER = LogManager.getLogger(Admin2.class);
-	private String NODES = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
 	private static String id = "20";
 
 	public Admin2() {

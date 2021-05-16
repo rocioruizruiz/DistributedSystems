@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
-        <File name="File" fileName="/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/log.txt" append="true">
+        <File name="File" fileName="/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/log.txt" append="true">
             <PatternLayout>
                  <Pattern>%d{HH:mm:ss.SSS} %-5level: [%C{1} at method: %M] - %msg%n</Pattern>
             </PatternLayout>

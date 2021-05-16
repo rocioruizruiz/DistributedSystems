@@ -1,6 +1,7 @@
 package multiserver;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.management.ManagementFactory;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -27,7 +29,7 @@ public class Server1 {
 	private static int puertoEnvioNodoControl = 5001;
 
 	private static final Logger LOGGER = LogManager.getLogger(Server1.class);
-	private String NODES = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
+	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
 	private static String id = "4";
 
 	public Server1() {
@@ -156,53 +158,97 @@ public class Server1 {
 						socketEnvio.close();
 
 					if (rc.getSubtipo().equals("OK")) {
-						System.out.println("Cargas de CPUS recibidas!");
-						System.out.println("Tokens: " + rc.getTokens() + "\n" + "CPUs: " + rc.getCpus());
-						double menor = 99999999.99999;
-						int index = 0;
-						for (int i = 0; i < rc.getCpus().size(); i++) {
-							if (rc.getCpus().get(i) < menor) {
-								System.out.println(rc.getCpus().get(i) + " es menor que: " + menor);
-								index = i;
-								menor = rc.getCpus().get(i);
+						try {
+							System.out.println("Cargas de CPUS recibidas!");
+							System.out.println("Tokens: " + rc.getTokens() + "\n" + "CPUs: " + rc.getCpus());
+							double menor = 99999999.99999;
+							int index = 0;
+							for (int i = 0; i < rc.getCpus().size(); i++) {
+								if (rc.getCpus().get(i) < menor) {
+									System.out.println(rc.getCpus().get(i) + " es menor que: " + menor);
+									index = i;
+									menor = rc.getCpus().get(i);
+								}
+							}
+							System.out.println("El de menor carga es: " + rc.getTokens().get(index));
+							nodoprocesadoelegido = rc.getTokens().get(index);
+							pd.setNodoanillo(nodoprocesadoelegido);
+							LOGGER.info("Enviando petición a nodo: " + pd.getSubtipo() + " - " + pd.getPath() + " -> "
+									+ pd.getNodoanillo());
+							System.out.println("Enviamos petición a nodo: " + pd.getSubtipo() + " - " + pd.getPath()
+									+ " -> " + pd.getNodoanillo());
+	
+							if (inputRecepcion != null)
+								inputRecepcion.close();
+							if (socketRecepcion != null)
+								socketRecepcion.close();
+	
+							socketEnvio = new Socket("localhost", puertoEnvioNodoControl);
+							outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
+							outputEnvio.writeObject(pd);
+	
+							socketRecepcion = socketIzquierda.accept();
+							inputRecepcion = new ObjectInputStream(socketRecepcion.getInputStream());
+							rc = (RespuestaControl) inputRecepcion.readObject();
+							System.out.println(
+									"Resultado de la operación: " + rc.getSubtipo() + " - Ruta final: " + rc.getPath());
+							this.os.writeObject(rc);
+	
+							if (inputRecepcion != null)
+								inputRecepcion.close();
+							if (socketRecepcion != null)
+								socketRecepcion.close();
+							if (outputEnvio != null)
+								outputEnvio.close();
+							if (socketEnvio != null)
+								socketEnvio.close();
+							if (socketIzquierda != null) {
+								socketIzquierda.close();
+							}
+						}catch(ConnectException ex) {
+							System.out.println("Se ha producido un error de conexion");
+							if (inputRecepcion != null)
+								inputRecepcion.close();
+							if (socketRecepcion != null)
+								socketRecepcion.close();
+							if (outputEnvio != null)
+								outputEnvio.close();
+							if (socketEnvio != null)
+								socketEnvio.close();
+							if (socketIzquierda != null) {
+								socketIzquierda.close();
+							}
+						}catch(EOFException ex) {
+							System.out.println("Se ha producido un error de conexion");
+							if (inputRecepcion != null)
+								inputRecepcion.close();
+							if (socketRecepcion != null)
+								socketRecepcion.close();
+							if (outputEnvio != null)
+								outputEnvio.close();
+							if (socketEnvio != null)
+								socketEnvio.close();
+							if (socketIzquierda != null) {
+								socketIzquierda.close();
 							}
 						}
-						System.out.println("El de menor carga es: " + rc.getTokens().get(index));
-						nodoprocesadoelegido = rc.getTokens().get(index);
-						pd.setNodoanillo(nodoprocesadoelegido);
-						LOGGER.info("Enviando petición a nodo: " + pd.getSubtipo() + " - " + pd.getPath() + " -> "
-								+ pd.getNodoanillo());
-						System.out.println("Enviamos petición a nodo: " + pd.getSubtipo() + " - " + pd.getPath()
-								+ " -> " + pd.getNodoanillo());
-
-						if (inputRecepcion != null)
-							inputRecepcion.close();
-						if (socketRecepcion != null)
-							socketRecepcion.close();
-
-						socketEnvio = new Socket("localhost", puertoEnvioNodoControl);
-						outputEnvio = new ObjectOutputStream(socketEnvio.getOutputStream());
-						outputEnvio.writeObject(pd);
-
-						socketRecepcion = socketIzquierda.accept();
-						inputRecepcion = new ObjectInputStream(socketRecepcion.getInputStream());
-						rc = (RespuestaControl) inputRecepcion.readObject();
-						System.out.println(
-								"Resultado de la operación: " + rc.getSubtipo() + " - Ruta final: " + rc.getPath());
-						this.os.writeObject(rc);
-
-						if (inputRecepcion != null)
-							inputRecepcion.close();
-						if (socketRecepcion != null)
-							socketRecepcion.close();
-						if (outputEnvio != null)
-							outputEnvio.close();
-						if (socketEnvio != null)
-							socketEnvio.close();
-						if (socketIzquierda != null) {
-							socketIzquierda.close();
-						}
 					}
+				}
+			} catch (ConnectException ex) {
+				LOGGER.error("Conection  error while executing thread", ex);
+				System.out.println("Se ha producido un error de conexión");
+				try {
+					if (clientSocket != null)
+						clientSocket.close();
+					if (sServicio != null)
+						sServicio.close();
+					if (this.is != null)
+						this.is.close();
+					if (this.os != null)
+						this.os.close();
+				} catch (IOException e) {
+					LOGGER.error("I/O error while executing thread", ex);
+					e.printStackTrace();
 				}
 			} catch (ClassNotFoundException ex) {
 				LOGGER.error("Class not found error while executing thread", ex);
