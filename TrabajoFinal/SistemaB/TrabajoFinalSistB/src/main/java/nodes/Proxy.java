@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -226,11 +227,28 @@ public class Proxy {
 						this.client_os.writeObject(new RespuestaControl("NOT_OK"));
 				} catch (IOException e) {
 					LOGGER.error("I/O error while executing thread", ex);
+				}
+			} catch (ConnectException ex) {
+				LOGGER.error("Broken Pipe!", ex);
+				System.out.println("BrokenPipe! Returning NOT_OK to client");
+				try {
+					if (this.client_os != null)
+						this.client_os.writeObject(new RespuestaControl("NOT_OK"));
+				} catch (IOException e) {
+					LOGGER.error("I/O error while executing thread", ex);
+				}
+			} catch (SocketException ex) {
+				LOGGER.error("Broken Pipe!", ex);
+				System.out.println("BrokenPipe! Returning NOT_OK to client");
+				try {
+					if (this.client_os != null)
+						this.client_os.writeObject(new RespuestaControl("NOT_OK"));
+				} catch (IOException e) {
+					LOGGER.error("I/O error while executing thread", ex);
 					e.printStackTrace();
 				}
 			} catch (IOException ex) {
 				LOGGER.error("I/O error while executing thread", ex);
-				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
