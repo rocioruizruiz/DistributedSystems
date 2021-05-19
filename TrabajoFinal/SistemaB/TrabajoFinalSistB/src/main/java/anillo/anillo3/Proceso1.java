@@ -44,7 +44,7 @@ public class Proceso1 {
 				System.out.println("Arrancando el proceso 1 del anillo 3 en el puerto " + puertoIzquierda + "...");
 				ServerSocket socketIzquierda = new ServerSocket(puertoIzquierda);
 				Socket sIzquierda;
-				while ((sIzquierda = socketIzquierda.accept()) != null) {
+				if ((sIzquierda = socketIzquierda.accept()) != null) {
 					// Me acaba de llegar el testigo
 					LOGGER.info(
 							"Proceso 1 de Anillo 3 ha aceptado la conexión " + sIzquierda.getInetAddress().toString());
@@ -98,6 +98,8 @@ public class Proceso1 {
 					}
 				}
 			} catch (IOException ex) {
+				LOGGER.error("I/O error while executing thread", ex);
+				ex.printStackTrace();
 			} catch (ClassNotFoundException ex) {
 				LOGGER.error("Class not found error while executing thread", ex);
 				ex.printStackTrace();
@@ -185,7 +187,7 @@ public class Proceso1 {
 	}
 
 	public String getFiltroPath(String filtro) {
-		File file = new File("/home/agus/eclipse-workspace/TrabajoFinalSistB/src/main/java/anillo/anillo3");
+		File file = new File("/home/agus/eclipse-workspace/TrabajoFinalSistB/src/main/java/anillo/anillo3/filter");
 		String thepath = "";
 		if (file.exists()) {
 			String[] pathnames;
