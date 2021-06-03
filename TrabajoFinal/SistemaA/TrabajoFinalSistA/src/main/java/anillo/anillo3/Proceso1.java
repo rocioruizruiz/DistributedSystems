@@ -28,7 +28,7 @@ public class Proceso1 {
 	private String token = "";
 
 	private static final Logger LOGGER = LogManager.getLogger(Proceso1.class);
-	private String NODES = "/Users/rocioruizruiz/Documentos/Tercero/SistemasDistribuidos/Workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
+	private String NODES = "/home/agus/eclipse-workspace/TrabajoFinalSistA/src/main/resources/nodes.txt";
 	private static String id = "16";
 
 	public static void main(String[] args) {

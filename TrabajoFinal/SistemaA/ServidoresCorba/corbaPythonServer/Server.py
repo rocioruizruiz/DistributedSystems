@@ -1,11 +1,11 @@
 import sys
 import cv2
 import os
-from omniORB import CORBA
 import CosNaming
 import PortableServer
 import FilterApp
 import FilterApp__POA
+from omniORB import CORBA
 from os import listdir
 from os.path import isfile, join
 
@@ -20,7 +20,7 @@ class FilterImpl (FilterApp__POA.Filter):
             filterName = os.path.splitext(f)[0]
             if(filtro == filterName):
                 exec(open("/mnt/clientPythonFilter/" + f).read(), globals(), locals())
-                return "Done!"
+                return destPath
         else:
             return "Error. Filter does not exist."
 
