@@ -16,7 +16,7 @@ class FilterImpl (FilterApp__POA.Filter):
     def applyFilter(self, filtro, imgpath):
         try:
             exec(open(filtro).read(), globals(), locals())
-            return "Done!"
+            return destPath
         except:
             return "Error. Filter does not exist."
 

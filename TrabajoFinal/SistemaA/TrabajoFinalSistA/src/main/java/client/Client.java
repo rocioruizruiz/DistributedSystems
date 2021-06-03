@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -108,18 +106,15 @@ public class Client {
 			// Asociamos los objetos al socket
 			this.os = new ObjectOutputStream(s.getOutputStream());
 			this.is = new ObjectInputStream(s.getInputStream());
+		} catch (UnknownHostException ex) {
+			LOGGER.error("Unknown Host error while executing thread", ex);
+			ex.printStackTrace();
 		} catch (EOFException ex) {
 			LOGGER.error("Server(proxy) error while executing thread", ex);
 			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!");
-		} catch (ConnectException ex) {
-			LOGGER.error("I/O error while executing thread", ex);
-			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!");
-		} catch (SocketException ex) {
-			LOGGER.error("Server(proxy) error while executing thread", ex);
-			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!!");
 		} catch (IOException ex) {
 			LOGGER.error("I/O error while executing thread", ex);
-
+			ex.printStackTrace();
 		}
 	}
 
@@ -137,6 +132,7 @@ public class Client {
 				this.s = null;
 			} catch (IOException ex) {
 				LOGGER.error("I/O error while executing thread", ex);
+				ex.printStackTrace();
 			}
 		} else {
 			LOGGER.error("Usuario ya desconectado.");
@@ -196,17 +192,14 @@ public class Client {
 
 					LOGGER.info("Filtro disponible!");
 					System.out.println("Filtro disponible! Indique la ruta de la imagen a editar: ");
-					long stop = System.currentTimeMillis();
 					String path = sc.nextLine();
-					long restart = System.currentTimeMillis();
-					long extratime = (restart-stop);
 					File file = new File(path);
 					if (file.exists()) {
 						pd2.setPath(path);
 						System.out.println(pd2.getPath());
 						this.os.writeObject(pd2);
 						rc = (RespuestaControl) this.is.readObject(); //
-						this_latency = (System.currentTimeMillis() - startTime - extratime);
+						this_latency = (System.currentTimeMillis() - startTime);
 						latencia_app.add((this_latency));
 						System.out.println("Tiempo de respuesta actual: " + this_latency + "ms.");
 						averageAppLatency();
@@ -224,16 +217,13 @@ public class Client {
 
 		} catch (ClassNotFoundException ex) {
 			LOGGER.error("Class not found error while executing thread", ex);
-		} catch (ConnectException ex) {
-			LOGGER.error("I/O error while executing thread", ex);
-			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!");
-		} catch (SocketException ex) {
+			ex.printStackTrace();
+		} catch (EOFException ex) {
 			LOGGER.error("Server(proxy) error while executing thread", ex);
-			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!!");
-		} catch (IOException e) {
 			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!!!");
-		} catch (NullPointerException ex){
-			
+		} catch (IOException ex) {
+			LOGGER.error("I/O error while executing thread", ex);
+			ex.printStackTrace();
 		}
 	}
 
@@ -263,20 +253,16 @@ public class Client {
 			} else if (rc.getSubtipo().compareTo("OP_REG_NOK") == 0) {
 				System.out.println("El usuario ya existe, elija otro nombre");
 			}
+		} catch (ClassNotFoundException ex) {
+			LOGGER.error("Class not found error while executing thread", ex);
+			ex.printStackTrace();
 		} catch (EOFException ex) {
 			LOGGER.error("Server(proxy) error while executing thread", ex);
 			System.out.println("Se ha producido un error en el servidor(proxy), intentelo de nuevo!!!");
-		} catch(SocketException ex) {
-			ex.printStackTrace();
 		} catch (IOException ex) {
 			LOGGER.error("I/O error while executing thread", ex);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (NullPointerException ex){
-			
+			ex.printStackTrace();
 		}
-		
 	}
 
 	// metrics
